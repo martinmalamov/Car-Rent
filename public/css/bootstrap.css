@@ -2671,6 +2671,9 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #17a2b8;
   border-color: #17a2b8;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 
 .btn-info:hover {
@@ -2745,6 +2748,17 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.btn-danger2 {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .btn-danger:hover {

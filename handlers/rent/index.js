@@ -6,38 +6,56 @@ module.exports = {
     get: {
         sharedRent(req, res, next) {
 
-            const name = req.params
-            console.log('Req body fullname', name)
+            const fullName = req.user.fullName
+            console.log('FULL NAME from get rent', fullName)
 
             Rent.find().lean().then((rent) => {
                 res.render('rent/shared-rent', {
                     isLoggedIn: req.user !== undefined,
-                    userEmail: req.user ? req.user.email : '',
+                    userEmailLogout: req.user ? req.user.email : '',
+                    userInfo: req.user ? fullName : '',
                     rent
                 })
             })
         },
 
         offerRent(req, res, next) {
+            const fullName = req.user.fullName
+
             res.render('rent/offer-rent.hbs', {
                 isLoggedIn: req.user !== undefined,
-                userEmail: req.user ? req.user.email : ''
+                userEmailLogout: req.user ? req.user.email : '',
+                userInfo: req.user ? fullName : ''
             })
+        },
+
+        offerRentEdit(req, res, next) {
+            const { id } = req.params
+            console.log('ID offerRentEdit', id)
+            // const fullName = req.user.fullName
+
+            Rent.findOne({ _id: id })
+                .then((rent) => {
+                    res.render('rent/offer-rent-edit.hbs', rent)
+                })
         },
 
         detailsRent(req, res, next) {
             const { id } = req.params
-            
+            console.log('ID', req.user.fullName)
+
             Rent.findById(id).populate('buddies').lean().then((rent) => {
 
                 const currentUser = JSON.stringify(req.user._id)
-                console.log('Current USER' , currentUser)
+                console.log('Current USER', currentUser)
 
                 const availableSeats = 1
 
                 res.render('rent/details-rent.hbs', {
                     isLoggedIn: req.user !== undefined,
-                    userEmail: req.user ? req.user.email : '',
+                    // userEmail: req.user ? req.user.email : '',
+                    userEmailLogout: req.user ? req.user.email : '',
+                    userInfo: req.user ? req.user.fullName : '',
                     rent,
                     //compare id of user
                     isTheDriver: JSON.stringify(rent.driver) === currentUser,
@@ -71,8 +89,8 @@ module.exports = {
 
     post: {
         offerRent(req, res, next) {
-            const {vehicleType , brand , model ,constructionYear , fuelType ,
-                 dateStart , dateEnd, carImage, seats, price } = req.body
+            const { vehicleType, brand, model, constructionYear, fuelType,
+                dateStart, dateEnd, carImage, seats, price } = req.body
 
             // const [startPoint, endPoint] = directions.split(' - ')
             const [date, time] = dateStart.split(' - ')
@@ -80,13 +98,17 @@ module.exports = {
             const { _id } = req.user;
 
             const errors = validationResult(req)
-            console.log("ERROR" , errors)
+            console.log("ERROR", errors)
 
             if (!errors.isEmpty()) {
                 res.render('rent/offer-rent.hbs', {
                     isLoggedIn: req.user !== undefined,
-                    userEmail: req.user ? req.user.email : '',
-                    message: errors.array()[0].msg
+                    userInfo: req.user ? req.user.email : '',
+                    message: errors.array()[0].msg,
+                    oldInputForRent: {
+                        vehicleType, brand, model, constructionYear, fuelType,
+                        dateStart, dateEnd, carImage, seats, price
+                    }
                 })
 
                 return
@@ -94,8 +116,8 @@ module.exports = {
 
             Rent.create({
                 vehicleType,
-                brand ,
-                model ,
+                brand,
+                model,
                 constructionYear,
                 fuelType,
                 date,
@@ -105,11 +127,76 @@ module.exports = {
                 carImage,
                 seats,
                 price,
+                oldInputForRent: {
+                    vehicleType, brand, model, constructionYear, fuelType,
+                    dateStart, dateEnd, carImage, seats, price
+                },
                 driver: _id
             }).then((createdTripp) => {
                 res.redirect('/rent/shared-rent')
             })
 
+        },
+
+        offerRentEdit(req, res, next) {
+            const { vehicleType, brand, model, constructionYear, fuelType,
+                dateStart, dateEnd, carImage, seats, price } = req.body
+
+            // const [startPoint, endPoint] = directions.split(' - ')
+            const [date, time] = dateStart.split(' - ')
+            const [dateend, timeend] = dateEnd.split(' - ')
+            const { _id } = req.user;
+            console.log("DRIVER ID" , _id)
+
+            const { id } = req.params;
+            console.log('USER ID ', id)
+            // console.log('req params ID ', req.params.id)
+            // console.log('body ' , req.body)
+
+
+            const errors = validationResult(req)
+            console.log("ERROR", errors)
+
+            if (!errors.isEmpty()) {
+                res.render(`rent/offer-rent-edit/${id}.hbs`, {
+                    isLoggedIn: req.user !== undefined,
+                    userEmail: req.user ? req.user.email : '',
+                    message: errors.array()[0].msg
+                })
+
+                return
+            }
+
+            Rent.findByIdAndUpdate( id , {
+                vehicleType,
+                brand,
+                model,
+                constructionYear,
+                fuelType,
+                date,
+                time,
+                dateend,
+                timeend,
+                carImage,
+                seats,
+                price,
+                oldInputForRent: {
+                    vehicleType, brand, model, constructionYear, fuelType,
+                    dateStart, dateEnd, carImage, seats, price
+                },
+                driver: _id
+                // $set: {
+                //     ...req.body
+                // }
+            }).then((createdTripp) => {
+                res.redirect(`/rent/shared-rent`)
+            }).catch((err) => {
+                console.log(err)
+            })
         }
+    },
+
+    put: {
+
     }
 }

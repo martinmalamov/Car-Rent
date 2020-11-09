@@ -15,7 +15,12 @@ module.exports = {
         logout(req, res, next) {
             req.user = null
             res.clearCookie(cookie).redirect('/home/')
+        },
+        UserInfo(req , res ,next) {
+            const name = req._id
+            console.log('Req body fullname from get', name)
         }
+
     },
 
 
@@ -23,9 +28,7 @@ module.exports = {
         login(req, res, next) {
             const { email, password } = req.body
             console.log('Req body', req.body)
-            const name = req.params.id
-            console.log('Req body fullname', name)
-
+           
             User.findOne({ email }).then((user) => {
                 return Promise.all([user.passwordsMatch(password), user])
             }).then(([match, user]) => {
@@ -36,7 +39,7 @@ module.exports = {
 
                 const token = jwt.createToken(user)
 
-                res.status(201).cookie(cookie, token, { maxAge: 3600000 }).redirect('/home/')
+                res.status(201).cookie(cookie, token, { maxAge: 3600000 }).redirect('/rent/shared-rent')
             })
         },
 

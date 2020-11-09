@@ -23,9 +23,9 @@
         <div style="text-align: center; width: 100%;">
             <img style="display: block; margin: 0 auto; max-width: 100px;"
                 src="https://i-love-png.com/images/family-svg-clipart-white-3.png" />
-            <h5 style="font-weight: bold;">Rent-a-Car </h5>
+            <h5 style="font-weight: bold;">Rented car user </h5>
             {{#each rent.buddies}}
-            <span>{{ this.email }}</span>
+            <span>{{ this.fullName }}</span>
             {{else}}
             <p>. . . . .</p>
             {{/each}}
@@ -39,12 +39,19 @@
                 <img style="max-width: 600px;" class="img-fluid rounded" src="{{rent.carImage}}" alt="">
             </div>
 
-            <div style="width: 100%; word-wrap: break-word; padding: 1%; ">
-                <p style="width: 100%; word-wrap: break-word;" class="lead">{{ rent.description}} </p>
+            <div style="width: 100%; word-wrap: break-word; padding: 1%;  position:relative; ">
+                <span style="width: 50%; word-wrap: break-word;" class="lead">{{ rent.vehicleType}}, </span>
+                <span style="width: 50%; word-wrap: break-word;" class="lead">{{ rent.brand}} , </span>
+                <span style="width: 50%; word-wrap: break-word;" class="lead">{{ rent.model}} , </span>
+                <span style="width: 50%; word-wrap: break-word;" class="lead">{{ rent.constructionYear}} ,</span>
+                <span style="width: 100%; word-wrap: break-word;" class="lead">{{ rent.fuelType}} ,</span>
+                <span style="width: 100%; word-wrap: break-word;" class="lead">seats {{ rent.seats}} ,</span>
+                <span style="width: 100%; word-wrap: break-word;" class="lead">price per day {{ rent.price}} ,</span>
 
 
                 {{#if isTheDriver}}
                 <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger">Close this rent</a>
+                <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
                 {{else}}
 
                 {{#if isAlreadyJoined}}
