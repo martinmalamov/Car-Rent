@@ -36,7 +36,8 @@
 
         <div style="display: flex;flex-direction: column; border-radius: 5px;">
             <div style="width: 100%; display: flex;">
-                <img style="min-width:280px ; max-width: 600px;margin:0 auto;" class="img-fluid rounded" src="{{rent.carImage}}" alt="">
+                <img style="min-width:280px ; max-width: 600px;margin:0 auto;" class="img-fluid rounded"
+                    src="{{rent.carImage}}" alt="">
             </div>
 
             <div style="width: 100%; word-wrap: break-word; padding: 1%;text-align:center;  position:relative; ">
@@ -52,8 +53,19 @@
                 {{#if isTheDriver}}
                 <div style="width: 100%;min-height:200px;">
 
-                <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger" data-confirm="Are you sure to delete this item?">Close this rent</a>
-                <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
+                    <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger delete" onclick="return myConfirm();"
+                        type="submit">Close this rent</a>
+                    <script>
+                        function myConfirm() {
+                            var result = confirm("Confirm delete !!!");
+                            if (result == true) {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    </script>
+                    <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
                 </div>
                 {{else}}
 
@@ -77,6 +89,7 @@
         </div>
 
         <hr>
+
 
     </div>
 </section>
