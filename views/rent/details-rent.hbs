@@ -52,7 +52,7 @@
                 {{#if isTheDriver}}
                 <div style="width: 100%;min-height:200px;">
 
-                <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger">Close this rent</a>
+                <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger" data-confirm="Are you sure to delete this item?">Close this rent</a>
                 <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
                 </div>
                 {{else}}

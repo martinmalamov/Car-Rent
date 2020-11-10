@@ -10,22 +10,22 @@ module.exports = [
     //         return true
     //     }),
 
-    body('dateStart')
-        .custom((value) => {
-            if (!value.includes(' - ')) {
-                throw new Error('The dateTime input field should includes " - " betweeen the date point and time')
-            }
+    // body('dateStart')
+    //     .custom((value) => {
+    //         if (!value.includes(' - ')) {
+    //             throw new Error('The dateTime input field should includes " - " betweeen the date point and time')
+    //         }
 
-            return true
-        }) , 
+    //         return true
+    //     }) , 
 
-    body('dateEnd')
-        .custom((value) => {
-            if (!value.includes(' - ')) {
-                throw new Error('The dateTime input field should includes " - " betweeen the date point and time')
-            }
+    // body('dateEnd')
+    //     .custom((value) => {
+    //         if (!value.includes(' - ')) {
+    //             throw new Error('The dateTime input field should includes " - " betweeen the date point and time')
+    //         }
 
-            return true
-        }) , 
+    //         return true
+    //     }) , 
 
 ]

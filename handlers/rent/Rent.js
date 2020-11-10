@@ -25,15 +25,15 @@ const rentSchema = new Schema({
         type:String,
         required: true
     } ,
-    dateStart : {
-        type: String
-    } , 
-    dateEnd : {
-        type: String
-    } , 
-    time : {
-        type: String
-    } , 
+    // dateStart : {
+    //     type: String
+    // } , 
+    // dateEnd : {
+    //     type: String
+    // } , 
+    // time : {
+    //     type: String
+    // } , 
     seats : {
         type: Number,
         required: true

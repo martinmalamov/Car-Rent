@@ -59,7 +59,7 @@ module.exports = {
                     rent,
                     //compare id of user
                     isTheDriver: JSON.stringify(rent.driver) === currentUser,
-                    isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
+                    // isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
                     isSeatsAvailable: availableSeats > 0,
                     availableSeats
                 })
@@ -90,11 +90,13 @@ module.exports = {
     post: {
         offerRent(req, res, next) {
             const { vehicleType, brand, model, constructionYear, fuelType,
-                dateStart, dateEnd, carImage, seats, price } = req.body
+                 carImage, seats, price } = req.body
+            // const { vehicleType, brand, model, constructionYear, fuelType,
+            //     dateStart, dateEnd, carImage, seats, price } = req.body
 
             // const [startPoint, endPoint] = directions.split(' - ')
-            const [date, time] = dateStart.split(' - ')
-            const [dateend, timeend] = dateEnd.split(' - ')
+            // const [date, time] = dateStart.split(' - ')
+            // const [dateend, timeend] = dateEnd.split(' - ')
             const { _id } = req.user;
 
             const errors = validationResult(req)
@@ -107,8 +109,12 @@ module.exports = {
                     message: errors.array()[0].msg,
                     oldInputForRent: {
                         vehicleType, brand, model, constructionYear, fuelType,
-                        dateStart, dateEnd, carImage, seats, price
+                       carImage, seats, price
                     }
+                    // oldInputForRent: {
+                    //     vehicleType, brand, model, constructionYear, fuelType,
+                    //     dateStart, dateEnd, carImage, seats, price
+                    // }
                 })
 
                 return
@@ -120,17 +126,21 @@ module.exports = {
                 model,
                 constructionYear,
                 fuelType,
-                date,
-                time,
-                dateend,
-                timeend,
+                // date,
+                // time,
+                // dateend,
+                // timeend,
                 carImage,
                 seats,
                 price,
                 oldInputForRent: {
                     vehicleType, brand, model, constructionYear, fuelType,
-                    dateStart, dateEnd, carImage, seats, price
+                   carImage, seats, price
                 },
+                // oldInputForRent: {
+                //     vehicleType, brand, model, constructionYear, fuelType,
+                //     dateStart, dateEnd, carImage, seats, price
+                // },
                 driver: _id
             }).then((createdTripp) => {
                 res.redirect('/rent/shared-rent')
@@ -140,11 +150,13 @@ module.exports = {
 
         offerRentEdit(req, res, next) {
             const { vehicleType, brand, model, constructionYear, fuelType,
-                dateStart, dateEnd, carImage, seats, price } = req.body
+                carImage, seats, price } = req.body
+            // const { vehicleType, brand, model, constructionYear, fuelType,
+            //     dateStart, dateEnd, carImage, seats, price } = req.body
 
             // const [startPoint, endPoint] = directions.split(' - ')
-            const [date, time] = dateStart.split(' - ')
-            const [dateend, timeend] = dateEnd.split(' - ')
+            // const [date, time] = dateStart.split(' - ')
+            // const [dateend, timeend] = dateEnd.split(' - ')
             const { _id } = req.user;
             console.log("DRIVER ID" , _id)
 
@@ -173,17 +185,21 @@ module.exports = {
                 model,
                 constructionYear,
                 fuelType,
-                date,
-                time,
-                dateend,
-                timeend,
+                // date,
+                // time,
+                // dateend,
+                // timeend,
                 carImage,
                 seats,
                 price,
                 oldInputForRent: {
                     vehicleType, brand, model, constructionYear, fuelType,
-                    dateStart, dateEnd, carImage, seats, price
+                     carImage, seats, price
                 },
+                // oldInputForRent: {
+                //     vehicleType, brand, model, constructionYear, fuelType,
+                //     dateStart, dateEnd, carImage, seats, price
+                // },
                 driver: _id
                 // $set: {
                 //     ...req.body
