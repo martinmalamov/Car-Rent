@@ -5,20 +5,25 @@ const { String, Number, ObjectId } = Schema.Types
 
 const rentSchema = new Schema({
     vehicleType: {
-        type: String
+        type: String,
+        required: true
     },
     
     brand : {
-        type: String
+        type: String,
+        required: true
     } , 
     model : {
-        type: String
+        type: String,
+        required: true
     } ,
     constructionYear :{
-        type:String
+        type:String,
+        required: true
     } ,
     fuelType :{
-        type:String
+        type:String,
+        required: true
     } ,
     dateStart : {
         type: String
@@ -30,13 +35,16 @@ const rentSchema = new Schema({
         type: String
     } , 
     seats : {
-        type: Number
+        type: Number,
+        required: true
     } , 
     price : {
-        type: String
+        type: String,
+        required: true
     } , 
     carImage : {
-        type: String
+        type: String,
+        required: true
     } , 
 
     driver: {
