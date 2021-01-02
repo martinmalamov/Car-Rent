@@ -2,8 +2,10 @@ const express = require('express')
 const User = require('../handlers/users/User')
 const cookieParser = require('cookie-parser')
 const handlebars = require('express-handlebars')
+
 const { cookie } = require('../config/config')
 const jwt = require('../utils/jwt')
+
 
 
 
@@ -25,3 +27,4 @@ module.exports = (app) => {
     //   //TODO
     // })
 }
+

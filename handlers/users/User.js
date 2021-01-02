@@ -8,7 +8,7 @@ const saltRounds = 11;
 const userSchema = new Schema({
     email: {
         type: String,
-        required: true,
+        // required: true,
         unique: true
     },
     fullName: {
@@ -24,7 +24,7 @@ const userSchema = new Schema({
 
     password: {
         type: String,
-        required: true,
+        // required: true,
     },
 
     trippHistory: [{
