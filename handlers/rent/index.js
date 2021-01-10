@@ -6,6 +6,9 @@ const MakeApointment = require('../makeApointment/MakeApointment')
 const multer = require('multer')
 const path = require('path')
 
+const fetch = require('node-fetch');
+const { send } = require('process')
+
 
 module.exports = {
     get: {
@@ -37,14 +40,59 @@ module.exports = {
 
         offerRentEdit(req, res, next) {
             const { id } = req.params
-            // console.log('ID offerRentEdit', id)
-            // const fullName = req.user.fullName
+            console.log('ID offerRentEdit', id)
 
             Rent.findOne({ _id: id })
                 .then((rent) => {
+                    console.log('rent', rent)
                     res.render('rent/offer-rent-edit.hbs', rent)
                 })
         },
+
+        // offerRentEdit(req, res, next) {
+        //     const { _id } = req.user;
+        //     console.log("DRIVER ID line 40", _id)
+
+        //     const { id } = req.params;
+        //     console.log('USER ID line 43', id)
+
+        //     //user information ( fullName , etc...)
+        //     const requestOfUser = req.user
+
+        //     Rent.findOne({ _id: id })
+        //         .then((rent) => {
+        //             res.render('rent/offer-rent-edit.hbs', {
+        //                 isLoggedIn: requestOfUser !== undefined,
+        //                 userEmailLogout: requestOfUser ? requestOfUser.email : '',
+        //                 userInfo: requestOfUser ? requestOfUser.fullName : '',
+        //                 rent
+        //             })
+        //         })
+
+        //     // Rent.findOne({ _id: id })
+        //     //     .then((rent) => {
+        //     //         console.log('rent', rent)
+
+
+        //     //         // const { vehicleType, brand, model, constructionYear, fuelType,
+        //     //         //     carImage, seats, price } = rent
+
+        //     //         res.render('rent/offer-rent.hbs', {
+        //     //             isLoggedIn: requestOfUser !== undefined,
+        //     //             userEmailLogout: requestOfUser ? requestOfUser.email : '',
+        //     //             userInfo: requestOfUser ? requestOfUser.fullName : '',
+        //     //             rent
+        //     //             // vehicleType,
+        //     //             // brand
+        //     //             // oldInputForRent: {
+        //     //             //     vehicleType, brand, model, constructionYear, fuelType,
+        //     //             //     carImage, seats, price
+        //     //             // },
+        //     //         })
+        //     //     }).catch((err) => {
+        //     //         console.log(err)
+        //     //     })
+        // },
 
         detailsRent(req, res, next) {
             const { id } = req.params
@@ -53,7 +101,7 @@ module.exports = {
             Rent.findById(id).populate('buddies').lean().then((rent) => {
 
                 const currentUser = JSON.stringify(req.user._id)
-                console.log('Current USER', currentUser)
+                console.log('Current USER(details)', currentUser)
 
                 const availableSeats = 1
 
@@ -137,6 +185,7 @@ module.exports = {
         },
 
         offerRent(req, res, next) {
+
             // Set The Storage Engine
             const storage = multer.diskStorage({
                 destination: './public/uploads/',
@@ -170,23 +219,51 @@ module.exports = {
                 }
             }
 
+            const { _id } = req.user;
+
+            const errors = validationResult(req)
+            console.log("ERROR", errors)
+
+            if (!errors.isEmpty()) {
+                res.render('rent/offer-rent.hbs', {
+                    isLoggedIn: req.user !== undefined,
+                    userInfo: req.user ? req.user.email : '',
+                    message: errors.array()[0].msg,
+                    oldInputForRent: {
+                        vehicleType, brand, model, constructionYear, fuelType,
+                        carImage, seats, price
+                    }
+                    // oldInputForRent: {
+                    //     vehicleType, brand, model, constructionYear, fuelType,
+                    //     dateStart, dateEnd, carImage, seats, price
+                    // }
+                })
+
+                return
+            }
+
             upload(req, res, (err) => {
-                console.log('req file name ', req.file.filename)
 
                 let { vehicleType, brand, model, constructionYear, fuelType,
                     carImage, seats, price } = req.body
 
-                console.log("CARDIMAGE", carImage)
-                console.log("vehicleType", vehicleType)
 
                 if (err) {
                     res.render('rent/offer-rent.hbs', {
-                        message: err
+                        message: err,
+                        oldInputForRent: {
+                            vehicleType, brand, model, constructionYear, fuelType,
+                            carImage, seats, price
+                        }
                     });
                 } else {
                     if (req.file == undefined) {
                         res.render('rent/offer-rent.hbs', {
-                            message: 'Error: No File Selected!'
+                            message: 'Error: No File Selected(image is required)!',
+                            oldInputForRent: {
+                                vehicleType, brand, model, constructionYear, fuelType,
+                                carImage, seats, price
+                            }
                         });
                     } else {
 
@@ -219,57 +296,41 @@ module.exports = {
                 }
             })
 
-
-
-            // const { vehicleType, brand, model, constructionYear, fuelType,
-            //     dateStart, dateEnd, carImage, seats, price } = req.body
-
-            // const [startPoint, endPoint] = directions.split(' - ')
-            // const [date, time] = dateStart.split(' - ')
-            // const [dateend, timeend] = dateEnd.split(' - ')
-            const { _id } = req.user;
-
-            const errors = validationResult(req)
-            console.log("ERROR", errors)
-
-            if (!errors.isEmpty()) {
-                res.render('rent/offer-rent.hbs', {
-                    isLoggedIn: req.user !== undefined,
-                    userInfo: req.user ? req.user.email : '',
-                    message: errors.array()[0].msg,
-                    oldInputForRent: {
-                        vehicleType, brand, model, constructionYear, fuelType,
-                        carImage, seats, price
-                    }
-                    // oldInputForRent: {
-                    //     vehicleType, brand, model, constructionYear, fuelType,
-                    //     dateStart, dateEnd, carImage, seats, price
-                    // }
-                })
-
-                return
-            }
         },
 
         offerRentEdit(req, res, next) {
-            const {
-                vehicleType, brand, model, constructionYear, fuelType,
-                carImage, seats, price
-            } = req.body
-            // const { vehicleType, brand, model, constructionYear, fuelType,
-            //     dateStart, dateEnd, carImage, seats, price } = req.body
+            // Set The Storage Engine
+            const storage = multer.diskStorage({
+                destination: './public/uploads/',
+                filename: function (req, file, cb) {
+                    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+                }
+            });
 
-            // const [startPoint, endPoint] = directions.split(' - ')
-            // const [date, time] = dateStart.split(' - ')
-            // const [dateend, timeend] = dateEnd.split(' - ')
-            const { _id } = req.user;
-            console.log("DRIVER ID", _id)
+            // Init Upload
+            const upload = multer({
+                storage: storage,
+                limits: { fileSize: 1000000 },
+                fileFilter: function (req, file, cb) {
+                    checkFileType(file, cb);
+                }
+            }).single('carImage');
 
-            const { id } = req.params;
-            console.log('USER ID ', id)
-            // console.log('req params ID ', req.params.id)
-            // console.log('body ' , req.body)
+            // Check File Type
+            function checkFileType(file, cb) {
+                // Allowed ext
+                const filetypes = /jpeg|jpg|png|gif/;
+                // Check ext
+                const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+                // Check mime
+                const mimetype = filetypes.test(file.mimetype);
 
+                if (mimetype && extname) {
+                    return cb(null, true);
+                } else {
+                    cb('Error: Images Only!');
+                }
+            }
 
             const errors = validationResult(req)
             console.log("ERROR", errors)
@@ -284,40 +345,82 @@ module.exports = {
                 return
             }
 
-            Rent.findByIdAndUpdate(id, {
-                vehicleType,
-                brand,
-                model,
-                constructionYear,
-                fuelType,
-                // date,
-                // time,
-                // dateend,
-                // timeend,
-                carImage,
-                seats,
-                price,
-                oldInputForRent: {
-                    vehicleType, brand, model, constructionYear, fuelType,
-                    carImage, seats, price
-                },
-                // oldInputForRent: {
-                //     vehicleType, brand, model, constructionYear, fuelType,
-                //     dateStart, dateEnd, carImage, seats, price
-                // },
-                driver: _id
-                // $set: {
-                //     ...req.body
-                // }
-            }).then((createdTripp) => {
-                res.redirect(`/rent/shared-rent`)
-            }).catch((err) => {
-                console.log(err)
+            upload(req, res, (err) => {
+                let { vehicleType, brand, model, constructionYear, fuelType,
+                    carImage, seats, price } = req.body
+
+                // const testReq = req;
+                // console.log("DRIVER ID line 357", testReq)
+                const id = req.params.id;
+                console.log("User id from params at line 406", id)
+
+                const { _id } = req.user._id;
+                console.log('USER ID  line 409', _id)
+
+                if (err) {
+                    res.render(`rent/offer-rent-edit/${id}.hbs`, {
+                        message: err,
+                        oldInputForRent: {
+                            vehicleType, brand, model, constructionYear, fuelType,
+                            carImage, seats, price
+                        }
+                    });
+                } else {
+                    if (req.file == undefined) {
+                        res.render(`rent/offer-rent-edit/${id}.hbs`, {
+                            message: 'Error: No File Selected(image is required)!',
+                            oldInputForRent: {
+                                vehicleType, brand, model, constructionYear, fuelType,
+                                carImage, seats, price
+                            }
+                        });
+                    } else {
+
+
+                        Rent.findByIdAndUpdate(id, {
+                            message: 'File Uploaded!',
+                            carImage: `../../uploads/${req.file.filename}`,
+
+                            vehicleType,
+                            brand,
+                            model,
+                            constructionYear,
+                            fuelType,
+                            seats,
+                            price,
+                            oldInputForRent: {
+                                vehicleType, brand, model, constructionYear, fuelType,
+                                carImage, seats, price
+                            },
+                            driver: _id
+                            // $set: {
+                            //     ...req.body
+                            // }
+                        }).then((createdTripp) => {
+                            res.redirect(`/rent/shared-rent`)
+                            // res.redirect(`/rent/details-rent/${id}.hbs`)
+                        }).catch((err) => {
+                            console.log(err)
+                        })
+                    }
+                }
             })
         }
     },
+
 
     put: {
 
     }
 }
+
+
+
+
+
+// // const [startPoint, endPoint] = directions.split(' - ')
+// // const [date, time] = dateStart.split(' - ')
+// // const [dateend, timeend] = dateEnd.split(' - ')
+
+// // console.log('req params ID ', req.params.id)
+// // console.log('body ' , req.body)

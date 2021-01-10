@@ -6,7 +6,7 @@ const handlebars = require('express-handlebars')
 const { cookie } = require('../config/config')
 const jwt = require('../utils/jwt')
 
-
+var bodyParser = require('body-parser');
 
 
 module.exports = (app) => {
@@ -21,6 +21,13 @@ module.exports = (app) => {
     app.set('view engine', 'hbs')
     app.use(express.json())
     app.use(cookieParser())
+
+    // configure the app to use bodyParser()
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(bodyParser.json());
+
     app.use(express.urlencoded({ extended: false }))
 
     // app.use((req, res, next) => {

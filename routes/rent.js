@@ -19,8 +19,8 @@ router.post('/join-rent/:id', isAuth(), handler.post.joinRent)
 router.post('/offer-rent-edit/:id', isAuth(),  handler.post.offerRentEdit)
 
 
-router.get('/' , function(req,res,next) {
-    res.send('respond with a resource')
-})
+// router.get('/' , function(req,res,next) {
+//     res.send('respond with a resource')
+// })
 
 module.exports = router
