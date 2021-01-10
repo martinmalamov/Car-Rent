@@ -298,10 +298,11 @@ module.exports = {
 
         },
 
+        //Edit functionality
         offerRentEdit(req, res, next) {
             // Set The Storage Engine
             const storage = multer.diskStorage({
-                destination: './public/uploads/',
+                destination: './public/uploads_edit/',
                 filename: function (req, file, cb) {
                     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
                 }
@@ -379,7 +380,7 @@ module.exports = {
 
                         Rent.findByIdAndUpdate(id, {
                             message: 'File Uploaded!',
-                            carImage: `../../uploads/${req.file.filename}`,
+                            carImage: `../../uploads_edit/${req.file.filename}`,
 
                             vehicleType,
                             brand,
