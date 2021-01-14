@@ -6,11 +6,9 @@ const MakeApointment = require('../makeApointment/MakeApointment')
 const multer = require('multer')
 const path = require('path')
 
-const fetch = require('node-fetch');
-const { send } = require('process')
-
-
 module.exports = {
+
+
     get: {
         sharedRent(req, res, next) {
 
@@ -39,60 +37,35 @@ module.exports = {
         },
 
         offerRentEdit(req, res, next) {
-            const { id } = req.params
-            console.log('ID offerRentEdit', id)
+            const { _id } = req.user;
+            console.log("DRIVER ID line 40", _id)
+
+            const { id } = req.params;
+            console.log('USER ID line 43', id)
+
+            //user information ( fullName , etc...)
+            const requestOfUser = req.user
 
             Rent.findOne({ _id: id })
+
                 .then((rent) => {
-                    console.log('rent', rent)
-                    res.render('rent/offer-rent-edit.hbs', rent)
+                    // let brandName = rent.brand
+                    // let brandModel = rent.model
+                    // res.body.vehicleType = vehicleType
+                    // console.log('attributeArrayOfValues', rent)
+                    // console.log('rent', rent)
+                    // req.body.brand = rent.brand
+
+                    res.render('rent/offer-rent-edit.hbs',rent)
+                    // , {
+                    //     // brand: brandName,
+                    //     // model: brandModel,
+                    //     isLoggedIn: requestOfUser !== undefined,
+                    //     userEmailLogout: requestOfUser ? requestOfUser.email : '',
+                    //     userInfo: requestOfUser ? requestOfUser.fullName : '',
+                    // })
                 })
         },
-
-        // offerRentEdit(req, res, next) {
-        //     const { _id } = req.user;
-        //     console.log("DRIVER ID line 40", _id)
-
-        //     const { id } = req.params;
-        //     console.log('USER ID line 43', id)
-
-        //     //user information ( fullName , etc...)
-        //     const requestOfUser = req.user
-
-        //     Rent.findOne({ _id: id })
-        //         .then((rent) => {
-        //             res.render('rent/offer-rent-edit.hbs', {
-        //                 isLoggedIn: requestOfUser !== undefined,
-        //                 userEmailLogout: requestOfUser ? requestOfUser.email : '',
-        //                 userInfo: requestOfUser ? requestOfUser.fullName : '',
-        //                 rent
-        //             })
-        //         })
-
-        //     // Rent.findOne({ _id: id })
-        //     //     .then((rent) => {
-        //     //         console.log('rent', rent)
-
-
-        //     //         // const { vehicleType, brand, model, constructionYear, fuelType,
-        //     //         //     carImage, seats, price } = rent
-
-        //     //         res.render('rent/offer-rent.hbs', {
-        //     //             isLoggedIn: requestOfUser !== undefined,
-        //     //             userEmailLogout: requestOfUser ? requestOfUser.email : '',
-        //     //             userInfo: requestOfUser ? requestOfUser.fullName : '',
-        //     //             rent
-        //     //             // vehicleType,
-        //     //             // brand
-        //     //             // oldInputForRent: {
-        //     //             //     vehicleType, brand, model, constructionYear, fuelType,
-        //     //             //     carImage, seats, price
-        //     //             // },
-        //     //         })
-        //     //     }).catch((err) => {
-        //     //         console.log(err)
-        //     //     })
-        // },
 
         detailsRent(req, res, next) {
             const { id } = req.params
@@ -186,7 +159,7 @@ module.exports = {
 
         offerRent(req, res, next) {
 
-            // Set The Storage Engine
+            //Set The Storage Engine
             const storage = multer.diskStorage({
                 destination: './public/uploads/',
                 filename: function (req, file, cb) {
@@ -219,6 +192,7 @@ module.exports = {
                 }
             }
 
+
             const { _id } = req.user;
 
             const errors = validationResult(req)
@@ -233,10 +207,6 @@ module.exports = {
                         vehicleType, brand, model, constructionYear, fuelType,
                         carImage, seats, price
                     }
-                    // oldInputForRent: {
-                    //     vehicleType, brand, model, constructionYear, fuelType,
-                    //     dateStart, dateEnd, carImage, seats, price
-                    // }
                 })
 
                 return
@@ -247,6 +217,15 @@ module.exports = {
                 let { vehicleType, brand, model, constructionYear, fuelType,
                     carImage, seats, price } = req.body
 
+                let attributeArrayOfValues = {}
+                attributeArrayOfValues.vehicleType = vehicleType
+                attributeArrayOfValues.brand = brand
+                attributeArrayOfValues.model = model
+                attributeArrayOfValues.constructionYear = constructionYear
+                attributeArrayOfValues.fuelType = fuelType
+                attributeArrayOfValues.carImage = carImage
+                attributeArrayOfValues.seats = seats
+                attributeArrayOfValues.price = price
 
                 if (err) {
                     res.render('rent/offer-rent.hbs', {
@@ -276,17 +255,16 @@ module.exports = {
                             model,
                             constructionYear,
                             fuelType,
-                            // date,
-                            // time,
-                            // dateend,
-                            // timeend,
                             seats,
                             price,
                             oldInputForRent: {
                                 vehicleType, brand, model, constructionYear, fuelType,
                                 carImage, seats, price
                             },
-                            driver: _id
+                            attributeArrayOfValues,
+
+                            driver: _id,
+
                         }).then((createdTripp) => {
                             res.redirect('/rent/shared-rent')
                         }).catch((err) => {
@@ -377,7 +355,6 @@ module.exports = {
                         });
                     } else {
 
-
                         Rent.findByIdAndUpdate(id, {
                             message: 'File Uploaded!',
                             carImage: `../../uploads_edit/${req.file.filename}`,
@@ -399,7 +376,6 @@ module.exports = {
                             // }
                         }).then((createdTripp) => {
                             res.redirect(`/rent/shared-rent`)
-                            // res.redirect(`/rent/details-rent/${id}.hbs`)
                         }).catch((err) => {
                             console.log(err)
                         })

@@ -4,7 +4,6 @@ const isAuth = require('../utils/isAuth')
 const validations = require('../utils/validator')
 
 
-
 router.get('/shared-rent', isAuth(), handler.get.sharedRent)
 router.get('/offer-rent', isAuth(), handler.get.offerRent)
 router.get('/offer-rent-edit/:id', isAuth(), handler.get.offerRentEdit)

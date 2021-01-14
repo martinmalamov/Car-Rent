@@ -6,25 +6,25 @@ const { String, Number, ObjectId } = Schema.Types
 const rentSchema = new Schema({
     vehicleType: {
         type: String,
-        // required: true
+        required: true
     },
-    
-    brand : {
+
+    brand: {
         type: String,
-       // required: true
-    } , 
-    model : {
+        required: true
+    },
+    model: {
         type: String,
-       // required: true
-    } ,
-    constructionYear :{
-        type:String,
-       // required: true
-    } ,
-    fuelType :{
-        type:String,
-       // required: true
-    } ,
+        required: true
+    },
+    constructionYear: {
+        type: String,
+        required: true
+    },
+    fuelType: {
+        type: String,
+        required: true
+    },
     // dateStart : {
     //     type: String
     // } , 
@@ -34,29 +34,34 @@ const rentSchema = new Schema({
     // time : {
     //     type: String
     // } , 
-    seats : {
+    seats: {
         type: Number,
         //required: true
-    } , 
-    price : {
+    },
+    price: {
         type: String,
-       // required: true
-    } , 
-    carImage : {
+        required: true
+    },
+    carImage: {
         type: String,
-       // required: true
-    } , 
+        required: true
+    },
+
+    attributeArrayOfValues: {
+        type: Object,
+        required: true
+    },
 
     driver: {
-        type: ObjectId , 
-        ref : 'User'
-    }, 
-    
-    buddies : [{
-        type: ObjectId , 
+        type: ObjectId,
         ref: 'User'
-    }] 
-    
+    },
+
+    buddies: [{
+        type: ObjectId,
+        ref: 'User'
+    }]
+
 })
 
 module.exports = new Model('Rent', rentSchema)
