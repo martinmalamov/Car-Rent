@@ -2634,6 +2634,8 @@ fieldset:disabled a.btn {
   color: #fff;
   background-color: #28a745;
   border-color: #28a745;
+  /* position: relative; */
+  /* left: 0; */
 }
 
 .btn-success:hover {
@@ -2672,7 +2674,7 @@ fieldset:disabled a.btn {
   background-color: #17a2b8;
   border-color: #17a2b8;
   position: absolute;
-  bottom: 0;
+  /* bottom: 0; */
   right: 0;
 }
 
@@ -10252,4 +10254,58 @@ a.text-dark:hover, a.text-dark:focus {
   .btn-lg {
     font-size: 1rem;
   }
+}
+
+footer {
+  /* position:absolute;  */
+  bottom:0;
+  width:100%;
+}
+
+
+a::before {
+	content: '';
+	display: inline-block;
+	
+	width: .75em;
+	height: .75em;
+	
+	vertical-align:-.0625em;
+	
+	border: .125em solid currentColor;
+	border-top: none;
+	border-right: none;
+	
+	transform: rotate(45deg); 
+	
+}
+
+
+.tableContainer {
+  border: 3px solid rgb(228, 155, 21);
+  display: grid;
+  grid-template-columns: 25% 20% 20% 20% 15%;
+  grid-auto-flow: column;
+  /* justify-items: left; */
+  align-items: center;
+  margin-left: 1%;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.tableUser {
+  border: 3px solid green;
+  display: grid;
+  grid-template-columns: 25% 20% 20% 20% 15%;
+  grid-auto-flow: column;
+  justify-items: left;
+  align-items: center;
+  margin-left: 1%;
+}
+
+.tableContainer span:not(:first-child) {
+  border-left : 3px solid green;
+}
+.tableUser span:not(:first-child) {
+  border-left : 3px solid green;
 }

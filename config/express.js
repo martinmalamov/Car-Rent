@@ -3,6 +3,7 @@ const User = require('../handlers/users/User')
 const cookieParser = require('cookie-parser')
 const handlebars = require('express-handlebars')
 
+
 const { cookie } = require('../config/config')
 const jwt = require('../utils/jwt')
 
@@ -14,7 +15,7 @@ module.exports = (app) => {
         layoutsDir: 'views',
         defaultLayout: 'base-layout',
         partialsDir: 'views/partials',
-        extname: 'hbs'
+        extname: 'hbs',
     }))
 
     app.use(express.static('public'))

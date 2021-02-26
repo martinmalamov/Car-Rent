@@ -48,19 +48,6 @@ const rentSchema = new Schema({
         ref: 'User'
     },
 
-    dateStart: {
-        type: String
-    },
-    dateEnd: {
-        type: String
-    },
-    startRentTime: {
-        type: String
-    },
-    endRentTime: {
-        type: String
-    },
-
     buddies: [{
         type: ObjectId,
         ref: 'User'

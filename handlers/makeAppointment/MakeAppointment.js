@@ -17,6 +17,10 @@ const makeAppointmentSchema = new Schema({
         type: String
     },
 
+    fullName: {
+        type: String,
+    },
+
     client: {
         type: ObjectId,
         ref: 'Rent'

@@ -1,14 +1,22 @@
 <div style="text-align: center; width: 100%;">
-    <img style="display: block; margin: 0 auto; max-width: 100px;"
+    <img style="display: block; margin: 0 auto; max-width: 100px;margin-top:70px;"
         src="https://i-love-png.com/images/family-svg-clipart-white-3.png" />
-    <h5 style="font-weight: bold;">Rented car user </h5>
-    {{#each joinedUser}}
-    <div>
-        <span>{{ this.fullName }}</span>
-        <span>{{ this.dateStart }}</span>
-        <span>{{ this.dateEnd }}</span>
-        <span>{{ this.startRentTime }}</span>
-        <span>{{ this.endRentTime }}</span>
+    <h5 style="font-weight: bold;">Customers schedule</h5>
+     <div class="tableContainer">
+        <span>Full name</span>
+        <span>Date from</span>
+        <span>Date to</span>
+        <span>Hour begin </span>
+        <span>Hour end</span>
+    </div>
+    {{#each allScheduledUsersForRentForTable}}
+   
+    <div class="tableUser">
+        <span>{{ fullName }}</span>
+        <span>{{ dateStart }}</span>
+        <span>{{ dateEnd }}</span>
+        <span>{{ startRentTime }}</span>
+        <span>{{ endRentTime }}</span>
     </div>
 
     {{else}}

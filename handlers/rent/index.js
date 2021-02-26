@@ -6,6 +6,7 @@ const MakeAppointment = require('../makeAppointment/MakeAppointment')
 const multer = require('multer')
 const path = require('path')
 const { rejects } = require('assert')
+const { ObjectId } = require('mongodb')
 
 module.exports = {
 
@@ -107,7 +108,7 @@ module.exports = {
 
         joinRent(req, res, next) {
             const { id } = req.params
-            console.log('110 id ' , id)
+            console.log('110 id ', id)
 
             // Rent.findById(id).populate('buddies').lean().then((rent) => {
 
@@ -130,29 +131,63 @@ module.exports = {
             //     })
             // })
 
-            Rent.findById(id).then((rent) => {
-                let makeAppointmentIdsFromRent = rent.makeAppointmentIds
+            Rent.findById(id).then(async(rent) => {
+                // let makeAppointmentIdsFromRent = rent.makeAppointmentIds
+                // console.log('makeAppointmentIds from rent line 135', makeAppointmentIdsFromRent)
 
-                MakeAppointment.findById(makeAppointmentIdsFromRent).then((joinedUser) => {
-                    // const currentUser = JSON.stringify(req.user._id)
-                    console.log('joinedUser line 116', joinedUser)
-                    res.render('rent/schedule-appointment.hbs' , {
-                        joinedUser
+
+                let allScheduledUsersForRent = []
+                for (let i = 0; i < rent.makeAppointmentIds.length; i++) {
+                    allScheduledUsersForRent.push(rent.makeAppointmentIds[i])
+                }
+
+                let allScheduledUsersForRentForTable = []
+
+                for (let k = 0; k < allScheduledUsersForRent.length; k++) {
+                    //VERY IMPORTANT , ERROR if we don't insert <lean()>
+                    // Handlebars: Access has been denied to resolve the property "fullName" because it is not an "own property" of its parent.
+                    // You can add a runtime option to disable the check or this warning: 
+                    await MakeAppointment.findById(allScheduledUsersForRent[k]).lean().then((array) => {
+                        console.log('array 147', array)
+                        allScheduledUsersForRentForTable.push(array)
                     })
+                }
+                console.log('allScheduledUsersForRentForTable 151',allScheduledUsersForRentForTable )
 
-
-                    //     res.render('rent/details-rent.hbs', {
-                    //         isLoggedIn: req.user !== undefined,
-                    //         // userEmail: req.user ? req.user.email : '',
-                    //         userEmailLogout: req.user ? req.user.email : '',
-                    //         userInfo: req.user ? req.user.fullName : '',
-                    //         rent,
-                    //         //compare id of user
-                    //         isTheDriver: JSON.stringify(rent.driver) === currentUser,
-                    //         isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
-                    //         isSeatsAvailable: availableSeats > 0,
-                    //         availableSeats
+                res.render('rent/schedule-appointment', {
+                    allScheduledUsersForRentForTable
                 })
+
+
+
+
+                // let allScheduledUsersForRent = []
+                // let allScheduledUsersForRentForTable = []
+                // for (let i = 0; i < makeAppointmentIdsFromRent.length; i++) {
+                //     allScheduledUsersForRent.push(makeAppointmentIdsFromRent[i])
+                // }
+                // console.log('allScheduledUsersForRent 142', allScheduledUsersForRent)
+
+
+                // for (let j = 0; j < allScheduledUsersForRent.length; j++) {
+                //     MakeAppointment.findById(allScheduledUsersForRent[j]).then((joinedUser) => {
+                //         // const currentUser = JSON.stringify(req.user._id)
+                //         console.log('joinedUser line 116', joinedUser)
+
+                //         allScheduledUsersForRentForTable.push(joinedUser)
+                //     })
+
+                // }
+
+                // res.render('rent/schedule-appointment.hbs', {
+                //     isLoggedIn: req.user !== undefined,
+                //     userEmailLogout: req.user ? req.user.email : '',
+                //     userInfo: req.user ? req.user.fullName : '',
+                //     //  joinedUser,
+                //     allScheduledUsersForRentForTable
+
+
+                // })
             })
 
             // MakeAppointment.findById(makeAppId).then((rent) => {
@@ -187,15 +222,19 @@ module.exports = {
             const { dateStart, dateEnd, startRentTime, endRentTime } = req.body
             console.log('dateStart 162', dateStart)
 
+            let fullName = req.user.fullName
+            console.log('fullname 193', fullName)
+
             Promise.all([
                 Rent.updateOne({ _id: id }, { $push: { buddies: _id } }),
                 User.updateOne({ _id }, { $push: { trippHistory: _id } })
             ]).then((joinedUsers) => {
-                console.log('joinedUsers 169', joinedUsers)
+                // console.log('joinedUsers 169', joinedUsers)
 
                 MakeAppointment.create({
 
                     dateStart, dateEnd, startRentTime, endRentTime,
+                    fullName,
                     driver: _id,
                     client: id
                 })
