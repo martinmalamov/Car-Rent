@@ -131,7 +131,7 @@ module.exports = {
             //     })
             // })
 
-            Rent.findById(id).then(async(rent) => {
+            Rent.findById(id).then(async (rent) => {
                 // let makeAppointmentIdsFromRent = rent.makeAppointmentIds
                 // console.log('makeAppointmentIds from rent line 135', makeAppointmentIdsFromRent)
 
@@ -147,14 +147,18 @@ module.exports = {
                     //VERY IMPORTANT , ERROR if we don't insert <lean()>
                     // Handlebars: Access has been denied to resolve the property "fullName" because it is not an "own property" of its parent.
                     // You can add a runtime option to disable the check or this warning: 
+                    //The lean method of mongoose returns plain JavaScript objects (POJOs), not Mongoose documents.
                     await MakeAppointment.findById(allScheduledUsersForRent[k]).lean().then((array) => {
                         console.log('array 147', array)
                         allScheduledUsersForRentForTable.push(array)
                     })
                 }
-                console.log('allScheduledUsersForRentForTable 151',allScheduledUsersForRentForTable )
+                console.log('allScheduledUsersForRentForTable 151', allScheduledUsersForRentForTable)
 
                 res.render('rent/schedule-appointment', {
+                    isLoggedIn: req.user !== undefined,
+                    userEmailLogout: req.user ? req.user.email : '',
+                    userInfo: req.user ? req.user.fullName : '',
                     allScheduledUsersForRentForTable
                 })
 
@@ -243,7 +247,7 @@ module.exports = {
                             Rent.updateOne({ _id: id }, { $push: { makeAppointmentIds: idFromMakeAppCollection._id } }),
                         ])
                         console.log('idFromMakeAppCollection', idFromMakeAppCollection)
-                        res.redirect(`/rent/shared-rent`)
+                        res.redirect(`/rent/schedule-appointment/${id}`)
                     }).catch((err) => {
                         console.log(err)
                     })
