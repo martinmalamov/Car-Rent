@@ -1,6 +1,6 @@
 // const User = require('../users/User')
 // const { validationResult } = require('express-validator')
-// const MakeApointment = require('./MakeApointment')
+// const MakeAppointment = require('./MakeAppointment')
 
 // module.exports = {
 //     get: {
@@ -13,7 +13,7 @@
 //             console.log('req body for date ', req.body)
 
 //             Promise.all([
-//                 MakeApointment.updateOne({ _id: id }, {
+//                 MakeAppointment.updateOne({ _id: id }, {
 //                     $push: {
 //                         apointmentDateTime: {
 //                             buddies: _id,
@@ -46,7 +46,7 @@
 
 //             console.log('REQ BODY  via post', req.body)
 
-//             MakeApointment.create({
+//             MakeAppointment.create({
 //                 dateStart, dateEnd, startRentTime, endRentTime,
 //                 driver: _id
 //             }).then((createdDateAndTime) => {

@@ -1,0 +1,18 @@
+<div style="text-align: center; width: 100%;">
+    <img style="display: block; margin: 0 auto; max-width: 100px;"
+        src="https://i-love-png.com/images/family-svg-clipart-white-3.png" />
+    <h5 style="font-weight: bold;">Rented car user </h5>
+    {{#each joinedUser}}
+    <div>
+        <span>{{ this.fullName }}</span>
+        <span>{{ this.dateStart }}</span>
+        <span>{{ this.dateEnd }}</span>
+        <span>{{ this.startRentTime }}</span>
+        <span>{{ this.endRentTime }}</span>
+    </div>
+
+    {{else}}
+    <p>There is no users yet</p>
+    {{/each}}
+    <p style="font-weight:bold;">{{rent.driver.email}}</p>
+</div>

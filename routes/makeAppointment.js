@@ -1,5 +1,5 @@
 // const router = require('express').Router()
-// const handler = require('../handlers/makeApointment')
+// const handler = require('../handlers/makeAppointment')
 // const isAuth = require('../utils/isAuth')
 // const validations = require('../utils/validator')
 

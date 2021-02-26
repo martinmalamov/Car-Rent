@@ -25,18 +25,9 @@ const rentSchema = new Schema({
         type: String,
         required: true
     },
-    // dateStart : {
-    //     type: String
-    // } , 
-    // dateEnd : {
-    //     type: String
-    // } , 
-    // time : {
-    //     type: String
-    // } , 
     seats: {
         type: Number,
-        //required: true
+        required: true
     },
     price: {
         type: String,
@@ -57,11 +48,28 @@ const rentSchema = new Schema({
         ref: 'User'
     },
 
+    dateStart: {
+        type: String
+    },
+    dateEnd: {
+        type: String
+    },
+    startRentTime: {
+        type: String
+    },
+    endRentTime: {
+        type: String
+    },
+
     buddies: [{
         type: ObjectId,
         ref: 'User'
+    }],
+    
+    makeAppointmentIds: [{
+        type: ObjectId,
+        ref: 'MakeAppointment'
     }]
-
 })
 
 module.exports = new Model('Rent', rentSchema)

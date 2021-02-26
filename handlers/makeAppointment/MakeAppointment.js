@@ -3,7 +3,7 @@ const User = require('../users/User')
 const { Schema, model: Model } = mongoose
 const { String, Number, ObjectId } = Schema.Types
 
-const makeApointment = new Schema({
+const makeAppointmentSchema = new Schema({
     dateStart: {
         type: String
     },
@@ -15,6 +15,11 @@ const makeApointment = new Schema({
     },
     endRentTime: {
         type: String
+    },
+
+    client: {
+        type: ObjectId,
+        ref: 'Rent'
     },
 
     driver: {
@@ -29,4 +34,4 @@ const makeApointment = new Schema({
 
 })
 
-module.exports = new Model('MakeApointment', makeApointment)
+module.exports = new Model('MakeAppointment', makeAppointmentSchema)

@@ -1,10 +1,11 @@
 const { validationResult } = require('express-validator')
 const User = require('../users/User')
 const Rent = require('./Rent')
-const MakeApointment = require('../makeApointment/MakeApointment')
+const MakeAppointment = require('../makeAppointment/MakeAppointment')
 
 const multer = require('multer')
 const path = require('path')
+const { rejects } = require('assert')
 
 module.exports = {
 
@@ -38,10 +39,10 @@ module.exports = {
 
         offerRentEdit(req, res, next) {
             const { _id } = req.user;
-            console.log("DRIVER ID line 40", _id)
+            // console.log("DRIVER ID line 40", _id)
 
             const { id } = req.params;
-            console.log('USER ID line 43', id)
+            // console.log('USER ID line 43', id)
 
             //user information ( fullName , etc...)
             const requestOfUser = req.user
@@ -56,7 +57,7 @@ module.exports = {
                     // console.log('rent', rent)
                     // req.body.brand = rent.brand
 
-                    res.render('rent/offer-rent-edit.hbs',rent)
+                    res.render('rent/offer-rent-edit.hbs', rent)
                     // , {
                     //     // brand: brandName,
                     //     // model: brandModel,
@@ -70,11 +71,12 @@ module.exports = {
         detailsRent(req, res, next) {
             const { id } = req.params
             // console.log('FULLNAME', req.user.fullName)
+            console.log('Creator user id ', id)
 
             Rent.findById(id).populate('buddies').lean().then((rent) => {
 
                 const currentUser = JSON.stringify(req.user._id)
-                console.log('Current USER(details)', currentUser)
+                // console.log('Driver user id', currentUser)
 
                 const availableSeats = 1
 
@@ -91,6 +93,9 @@ module.exports = {
                     availableSeats
                 })
             })
+
+
+            // Promise.all([rentRequest, makeAppointmentRequest])
         },
 
         closeRent(req, res, next) {
@@ -102,59 +107,110 @@ module.exports = {
 
         joinRent(req, res, next) {
             const { id } = req.params
-            const { _id } = req.user
+            console.log('110 id ' , id)
 
-            const { dateStart, dateEnd, startRentTime, endRentTime } = req.body
+            // Rent.findById(id).populate('buddies').lean().then((rent) => {
 
-            const requestFromJoin = req
+            //     const currentUser = JSON.stringify(req.user._id)
+            //     // console.log('Driver user id', currentUser)
 
-            console.log('req body for date ', req.body)
-            console.log('REQUEST FROM USER JOIN ', req)
+            //     const availableSeats = 1
 
-            Promise.all([
-                MakeApointment.updateOne({ _id: id }, {
-                    $push: {
-                        apointmentDateTime: {
-                            buddies: _id,
-                            dateStart, dateEnd, startRentTime, endRentTime
-                        },
-                    }
-                }),
+            //     res.render('rent/details-rent.hbs', {
+            //         isLoggedIn: req.user !== undefined,
+            //         // userEmail: req.user ? req.user.email : '',
+            //         userEmailLogout: req.user ? req.user.email : '',
+            //         userInfo: req.user ? req.user.fullName : '',
+            //         rent,
+            //         //compare id of user
+            //         isTheDriver: JSON.stringify(rent.driver) === currentUser,
+            //         isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
+            //         isSeatsAvailable: availableSeats > 0,
+            //         availableSeats
+            //     })
+            // })
 
-                User.updateOne({ _id }, {
-                    $push: {
-                        rentHistory: _id,
-                        dateStart,
-                        dateEnd,
-                        startRentTime,
-                        endRentTime
-                    }
+            Rent.findById(id).then((rent) => {
+                let makeAppointmentIdsFromRent = rent.makeAppointmentIds
+
+                MakeAppointment.findById(makeAppointmentIdsFromRent).then((joinedUser) => {
+                    // const currentUser = JSON.stringify(req.user._id)
+                    console.log('joinedUser line 116', joinedUser)
+                    res.render('rent/schedule-appointment.hbs' , {
+                        joinedUser
+                    })
+
+
+                    //     res.render('rent/details-rent.hbs', {
+                    //         isLoggedIn: req.user !== undefined,
+                    //         // userEmail: req.user ? req.user.email : '',
+                    //         userEmailLogout: req.user ? req.user.email : '',
+                    //         userInfo: req.user ? req.user.fullName : '',
+                    //         rent,
+                    //         //compare id of user
+                    //         isTheDriver: JSON.stringify(rent.driver) === currentUser,
+                    //         isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
+                    //         isSeatsAvailable: availableSeats > 0,
+                    //         availableSeats
                 })
-            ]).then(([updatedRent, updatedUser]) => {
-                res.redirect(`/rent/details-rent/${id}`)
             })
+
+            // MakeAppointment.findById(makeAppId).then((rent) => {
+
+            //     const currentUser = JSON.stringify(req.user._id)
+            //     // console.log('Driver user id', currentUser)
+
+            //     const availableSeats = 1
+
+            //     res.render('rent/details-rent.hbs', {
+            //         isLoggedIn: req.user !== undefined,
+            //         // userEmail: req.user ? req.user.email : '',
+            //         userEmailLogout: req.user ? req.user.email : '',
+            //         userInfo: req.user ? req.user.fullName : '',
+            //         rent,
+            //         //compare id of user
+            //         isTheDriver: JSON.stringify(rent.driver) === currentUser,
+            //         isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
+            //         isSeatsAvailable: availableSeats > 0,
+            //         availableSeats
+            //     })
+            // })
 
         }
     },
 
     post: {
         joinRent(req, res, next) {
-            const id = req.params
-            const _id = req.user
+            const { id } = req.params
+            const { _id } = req.user;
 
             const { dateStart, dateEnd, startRentTime, endRentTime } = req.body
+            console.log('dateStart 162', dateStart)
 
-            console.log('REQ BODY  via post', req.body)
-            console.log('REQ BODY  via post', dateStart)
+            Promise.all([
+                Rent.updateOne({ _id: id }, { $push: { buddies: _id } }),
+                User.updateOne({ _id }, { $push: { trippHistory: _id } })
+            ]).then((joinedUsers) => {
+                console.log('joinedUsers 169', joinedUsers)
 
-            MakeApointment.create(id, {
-                dateStart, dateEnd, startRentTime, endRentTime,
-                driver: _id
-            }).then((createdDateAndTime) => {
-                res.redirect('/rent/shared-rent.hbs')
-            }).catch((err) => {
-                console.log(err)
+                MakeAppointment.create({
+
+                    dateStart, dateEnd, startRentTime, endRentTime,
+                    driver: _id,
+                    client: id
+                })
+                    .then((idFromMakeAppCollection) => {
+                        Promise.all([
+                            Rent.updateOne({ _id: id }, { $push: { makeAppointmentIds: idFromMakeAppCollection._id } }),
+                        ])
+                        console.log('idFromMakeAppCollection', idFromMakeAppCollection)
+                        res.redirect(`/rent/shared-rent`)
+                    }).catch((err) => {
+                        console.log(err)
+                    })
+
             })
+
         },
 
         offerRent(req, res, next) {
@@ -331,10 +387,10 @@ module.exports = {
                 // const testReq = req;
                 // console.log("DRIVER ID line 357", testReq)
                 const id = req.params.id;
-                console.log("User id from params at line 406", id)
+                // console.log("Creator user id", id)
 
                 const { _id } = req.user._id;
-                console.log('USER ID  line 409', _id)
+                // console.log('Driver id user', _id)
 
                 if (err) {
                     res.render(`rent/offer-rent-edit/${id}.hbs`, {
@@ -401,3 +457,48 @@ module.exports = {
 
 // // console.log('req params ID ', req.params.id)
 // // console.log('body ' , req.body)
+
+
+
+// let customersArray = []
+
+// function addDevice() {
+
+//     // let idOfCustomers = new Promise((resolve, reject) => {
+//     //     return MakeAppointment.findById(id)
+//     // })
+//     // console.log('customersArray', a)
+
+//     // idOfCustomers.then((clients) => {
+//     //     customersArray.push(clients)
+//     //     console.log('test', customersArray)
+//     // })
+// }
+// console.log('test', addDevice())
+
+
+//2. let customersArray = []
+// for (let i = 0; i < idOfCustomers.length; i++) {
+//     customersArray.push(idOfCustomers[i]);
+// }
+// console.log('customersArray', customersArray)
+
+// console.log('mk id', MakeAppointment.findOne({id}))
+
+
+// 3.get : join rent code
+// const { id } = req.params
+// const { _id } = req.user
+// console.log('user id', id)
+// console.log('rent id', _id)
+
+// //stringify make literal to be string
+// const currentUser = JSON.stringify(req.user._id)
+// console.log('currentUser', currentUser)
+
+// Promise.all([
+//     Rent.updateOne({ _id: id }, { $push: { buddies: _id } }),
+//     User.updateOne({ _id }, { $push: { trippHistory: _id } })
+// ]).then(([updatedTripp, updatedUser]) => {
+//     res.redirect(`/rent/details-rent/${id}`)
+// })
