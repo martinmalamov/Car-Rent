@@ -80,6 +80,8 @@ module.exports = {
                 // console.log('Driver user id', currentUser)
 
                 const availableSeats = 1
+                
+                // if()
 
                 res.render('rent/details-rent.hbs', {
                     isLoggedIn: req.user !== undefined,
@@ -87,6 +89,7 @@ module.exports = {
                     userEmailLogout: req.user ? req.user.email : '',
                     userInfo: req.user ? req.user.fullName : '',
                     rent,
+                    successJoin : "Successfully scheduled for this rent!",
                     //compare id of user
                     isTheDriver: JSON.stringify(rent.driver) === currentUser,
                     isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
@@ -247,7 +250,7 @@ module.exports = {
                             Rent.updateOne({ _id: id }, { $push: { makeAppointmentIds: idFromMakeAppCollection._id } }),
                         ])
                         console.log('idFromMakeAppCollection', idFromMakeAppCollection)
-                        res.redirect(`/rent/schedule-appointment/${id}`)
+                        res.redirect(`/rent/details-rent/${id}`)
                     }).catch((err) => {
                         console.log(err)
                     })
