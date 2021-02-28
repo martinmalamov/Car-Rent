@@ -5,11 +5,7 @@ const MakeAppointment = require('../makeAppointment/MakeAppointment')
 
 const multer = require('multer')
 const path = require('path')
-const { rejects } = require('assert')
-const { ObjectId } = require('mongodb')
-
 //TODO add functionality for notificiations and schedule-appointment remove after certain hours
-
 
 module.exports = {
     get: {
@@ -145,60 +141,7 @@ module.exports = {
                     isTheDriver: JSON.stringify(rent.driver) === currentUser,
 
                 })
-
-
-
-
-                // let allScheduledUsersForRent = []
-                // let allScheduledUsersForRentForTable = []
-                // for (let i = 0; i < makeAppointmentIdsFromRent.length; i++) {
-                //     allScheduledUsersForRent.push(makeAppointmentIdsFromRent[i])
-                // }
-                // console.log('allScheduledUsersForRent 142', allScheduledUsersForRent)
-
-
-                // for (let j = 0; j < allScheduledUsersForRent.length; j++) {
-                //     MakeAppointment.findById(allScheduledUsersForRent[j]).then((joinedUser) => {
-                //         // const currentUser = JSON.stringify(req.user._id)
-                //         console.log('joinedUser line 116', joinedUser)
-
-                //         allScheduledUsersForRentForTable.push(joinedUser)
-                //     })
-
-                // }
-
-                // res.render('rent/schedule-appointment.hbs', {
-                //     isLoggedIn: req.user !== undefined,
-                //     userEmailLogout: req.user ? req.user.email : '',
-                //     userInfo: req.user ? req.user.fullName : '',
-                //     //  joinedUser,
-                //     allScheduledUsersForRentForTable
-
-
-                // })
             })
-
-            // MakeAppointment.findById(makeAppId).then((rent) => {
-
-            //     const currentUser = JSON.stringify(req.user._id)
-            //     // console.log('Driver user id', currentUser)
-
-            //     const availableSeats = 1
-
-            //     res.render('rent/details-rent.hbs', {
-            //         isLoggedIn: req.user !== undefined,
-            //         // userEmail: req.user ? req.user.email : '',
-            //         userEmailLogout: req.user ? req.user.email : '',
-            //         userInfo: req.user ? req.user.fullName : '',
-            //         rent,
-            //         //compare id of user
-            //         isTheDriver: JSON.stringify(rent.driver) === currentUser,
-            //         isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
-            //         isSeatsAvailable: availableSeats > 0,
-            //         availableSeats
-            //     })
-            // })
-
         }
     },
 
@@ -237,18 +180,18 @@ module.exports = {
                         console.log('idFromMakeAppCollection', idFromMakeAppCollection)
 
                         if (!err) {
-                            Rent.findById(id).then((rent) => {
-                                res.render(`/rent/details-rent/${id}`, {
-                                    successJoin: setTimeout(() => {
-                                        "Successfully scheduled for this rent!"
-                                    }, 5000)
-                                })
-                            }
+                            // Rent.findById(id).then((rent) => {
+                            //     res.render(`/rent/details-rent/${id}`, {
+                            //         successJoin: setTimeout(() => {
+                            //             "Successfully scheduled for this rent!"
+                            //         }, 5000)
+                            //     })
+                            // }
 
 
-                                //redirect accept only (status , path)
-                                // res.redirect(`/rent/details-rent/${id}`)
-                            )
+                            //redirect accept only (status , path)
+                            res.redirect(`/rent/details-rent/${id}`)
+
                         }
                     }).catch((err) => {
 
@@ -550,3 +493,26 @@ module.exports = {
 // ]).then(([updatedTripp, updatedUser]) => {
 //     res.redirect(`/rent/details-rent/${id}`)
 // })
+
+
+
+            // MakeAppointment.findById(makeAppId).then((rent) => {
+
+            //     const currentUser = JSON.stringify(req.user._id)
+            //     // console.log('Driver user id', currentUser)
+
+            //     const availableSeats = 1
+
+            //     res.render('rent/details-rent.hbs', {
+            //         isLoggedIn: req.user !== undefined,
+            //         // userEmail: req.user ? req.user.email : '',
+            //         userEmailLogout: req.user ? req.user.email : '',
+            //         userInfo: req.user ? req.user.fullName : '',
+            //         rent,
+            //         //compare id of user
+            //         isTheDriver: JSON.stringify(rent.driver) === currentUser,
+            //         isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
+            //         isSeatsAvailable: availableSeats > 0,
+            //         availableSeats
+            //     })
+            // })

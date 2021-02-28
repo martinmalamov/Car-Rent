@@ -1,7 +1,7 @@
 <section class="py-5" style="border:1px solid black;">
     <div style="padding: 2%;" class="container">
         <!-- Start and End point -->
-        <div >
+        <div>
             <b>Owner:</b> <i>{{name}}</i>
         </div>
 
@@ -9,8 +9,8 @@
 
         <div style="display: flex;flex-direction: column; border-radius: 5px;">
             <div style="width: 100%; display: flex;">
-                <img style="min-width:280px ; max-width: 600px;margin:0 auto;" class="img-fluid rounded"
-                    src="{{rent.carImage}}" alt="">
+                <img style="min-width:280px ;width:500px;height:400px; max-width: 500px;margin:0 auto;"
+                    class="img-fluid rounded" src="{{rent.carImage}}" alt="">
             </div>
 
             <div style="width: 100%; word-wrap: break-word; padding: 1%;text-align:center;  position:relative; ">
@@ -43,7 +43,7 @@
                     </script>
 
                     <a href="/rent/schedule-appointment/{{rent._id}}" class="btn btn-info">
-                            Check list of customers </a>
+                        Check list of customers </a>
 
                     <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
                 </div>
@@ -70,14 +70,12 @@
                 {{else}}
                 <form method="POST" action="/rent/join-rent/{{rent._id}}">
                     <div style="display: flex; width: 100%;margin-top:50px;">
-                        <div style="width: 50%;">
-                            <img style="display: block; margin: 0 auto; max-width: 100px;" {{!--
-                                src="https://img.icons8.com/cotton/2x/worldwide-location.png" /> --}}
-                            src="data:image/png;base64,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"
-                            />
-                            <h5 style="display: block; margin: 0 auto; text-align: center; font-weight: bold;"
-                                class="mt-4">
-                                <div>
+                        <div style="width: 40%;">
+                            <div>
+
+                                <i style="width: 100px;height:100px;" class="far fa-calendar-alt"aria-hidden="true"></i>
+                                <h5 style="display: block; margin: 0 auto; text-align: center; font-weight: bold;"
+                                    class="mt-4">
                                     <label for="dateStart">Choose a date from:</label>
                                     <select name="dateStart" id="dateStart" required>
                                         <option>Monday</option>
@@ -88,44 +86,45 @@
                                         <option>Saturday</option>
                                         <option>Sunday</option>
                                     </select>
-                                </div>
 
-                                <div>
-                                    <label for="startRentTime">Choose rent time from:</label>
-                                    <select name="startRentTime" id="startRentTime" required>
-                                        <option value="1am">1 AM</option>
-                                        <option value="2am">2 AM</option>
-                                        <option value="3am">3 AM</option>
-                                        <option value="4am">4 AM</option>
-                                        <option value="5am">5 AM</option>
-                                        <option value="6am">6 AM</option>
-                                        <option value="7am">7 AM</option>
-                                        <option value="8am">8 AM</option>
-                                        <option value="9am">9 AM</option>
-                                        <option value="10am">10 AM</option>
-                                        <option value="11am">11 AM</option>
-                                        <option value="12am">12 AM</option>
-                                        <option value="1pm">1 PM</option>
-                                        <option value="2pm">2 PM</option>
-                                        <option value="3pm">3 PM</option>
-                                        <option value="4pm">4 PM</option>
-                                        <option value="5pm">5 PM</option>
-                                        <option value="6pm">6 PM</option>
-                                        <option value="7pm">7 PM</option>
-                                        <option value="8pm">8 PM</option>
-                                        <option value="9pm">9 PM</option>
-                                        <option value="10pm">10 PM</option>
-                                        <option value="11pm">11 PM</option>
-                                        <option value="12pm">12 PM</option>
-                                    </select>
-                                </div>
+                                    <div>
+                                        <label for="startRentTime">Choose rent time from:</label>
+                                        <select name="startRentTime" id="startRentTime" required>
+                                            <option value="1am">1 AM</option>
+                                            <option value="2am">2 AM</option>
+                                            <option value="3am">3 AM</option>
+                                            <option value="4am">4 AM</option>
+                                            <option value="5am">5 AM</option>
+                                            <option value="6am">6 AM</option>
+                                            <option value="7am">7 AM</option>
+                                            <option value="8am">8 AM</option>
+                                            <option value="9am">9 AM</option>
+                                            <option value="10am">10 AM</option>
+                                            <option value="11am">11 AM</option>
+                                            <option value="12am">12 AM</option>
+                                            <option value="1pm">1 PM</option>
+                                            <option value="2pm">2 PM</option>
+                                            <option value="3pm">3 PM</option>
+                                            <option value="4pm">4 PM</option>
+                                            <option value="5pm">5 PM</option>
+                                            <option value="6pm">6 PM</option>
+                                            <option value="7pm">7 PM</option>
+                                            <option value="8pm">8 PM</option>
+                                            <option value="9pm">9 PM</option>
+                                            <option value="10pm">10 PM</option>
+                                            <option value="11pm">11 PM</option>
+                                            <option value="12pm">12 PM</option>
+                                        </select>
+                                    </div>
 
-                            </h5>
+                                </h5>
+                            </div>
                         </div>
-                        <div style="text-align: center; width: 50%;">
 
-                            <img style="display: block; margin: 0 auto; max-width: 100px;"
-                                src="data:image/png;base64,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" />
+
+                        <div style="text-align: center; width: 40%;height:100px;">
+
+                            <i style="width: 100%;height:100%;" class="far fa-calendar-alt"></i>
                             <h5 style="display: block; margin: 0 auto; text-align: center; font-weight: bold;"
                                 class="mt-4">
                                 {{!-- to {{rent.date}} {{rent.time}} --}}
@@ -175,8 +174,12 @@
 
                             </h5>
                         </div>
+                        <div style="width:20%; display: flex;flex-direction: column;">
+                            <button style="margin-top: auto;" type="submit" class="btn btn-primary">Rent a car
+                                now</button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-info">Rent a car now</button>
+
                     {{!-- <a href="/rent/join-rent/{{ rent._id }}" class="btn btn-info">Rent a car now</a> --}}
                     {{!-- <a href="/rent/schedule-appointment/{{rent._id}}" class="btn btn-info">Rent a car now</a>
                     --}}
