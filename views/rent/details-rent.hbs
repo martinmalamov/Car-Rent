@@ -1,6 +1,10 @@
 <section class="py-5" style="border:1px solid black;">
     <div style="padding: 2%;" class="container">
         <!-- Start and End point -->
+        <div >
+            <b>Owner:</b> <i>{{name}}</i>
+        </div>
+
         <hr>
 
         <div style="display: flex;flex-direction: column; border-radius: 5px;">
@@ -21,6 +25,7 @@
 
 
                 {{#if isTheDriver}}
+
                 <div style="width: 100%;min-height:200px;">
 
                     <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger delete" onclick="return myConfirm();"
@@ -36,6 +41,10 @@
                             }
                         }
                     </script>
+
+                    <a href="/rent/schedule-appointment/{{rent._id}}" class="btn btn-info">
+                            Check list of customers </a>
+
                     <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
                 </div>
                 {{else}}
@@ -43,7 +52,8 @@
                 {{#if isAlreadyJoined}}
                 <div class="container h-100" style="margin-top:3%;">
                     <div class="d-flex h-100">
-                        <button style="cursor: default;padding:20px" type="button" class="btn btn-success align-self-start mr-auto">
+                        <button style="cursor: default;padding:20px" type="button"
+                            class="btn btn-success align-self-start mr-auto">
                             You already rent this car !</button>
 
                         <a href="/rent/schedule-appointment/{{rent._id}}" class="btn btn-info">

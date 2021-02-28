@@ -20,6 +20,13 @@ const makeAppointmentSchema = new Schema({
     fullName: {
         type: String,
     },
+    status: {
+        type: Boolean,
+    },
+    statusResult: {
+        type: String,
+    },
+
 
     client: {
         type: ObjectId,

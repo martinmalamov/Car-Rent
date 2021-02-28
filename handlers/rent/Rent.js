@@ -38,7 +38,7 @@ const rentSchema = new Schema({
         required: true
     },
 
-    attributeArrayOfValues: {
+    oldInputInformationAboutCarSpecifications: {
         type: Object,
         required: true
     },

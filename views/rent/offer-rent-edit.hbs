@@ -2,73 +2,60 @@
     <div class="container">
         <h1 style="margin: 2%; text-align: center;">Offer Rent</h1>
         <div style="padding: 5%;">
-            <form method="POST" action="/rent/offer-rent-edit/{{id}}" enctype="multipart/form-data">
-            {{!-- <form method="POST" action="/rent/offer-rent-edit/" enctype="multipart/form-data"> --}}
+            <form method="POST" action="/rent/offer-rent-edit/{{rent._id}}" enctype="multipart/form-data">
+                {{!-- <form method="POST" action="/rent/offer-rent-edit/" enctype="multipart/form-data"> --}}
 
-                <label for="vehicleType">Choose vehicle type:</label>
-                <select id="vehicleType" name="vehicleType" >
-                    <option value=""></option>
-                    <option value="economy">economy</option>
-                    <option value="estate">estate</option>
-                    <option value="luxury">luxury</option>
-                    <option value="SUV">SUV</option>
-                    <option value="cargo">cargo</option>
-            
-                </select>
+                    <label for="vehicleType">Choose vehicle type:</label>
+                    <select id="vehicleType" name="vehicleType">
+                        <option selected="{{oldInputInformationAboutCarSpecifications.vehicleType}}">{{rent.oldInputInformationAboutCarSpecifications.vehicleType}}</option>
+                        <option value="economy">economy</option>
+                        <option value="estate">estate</option>
+                        <option value="luxury">luxury</option>
+                        <option value="SUV">SUV</option>
+                        <option value="cargo">cargo</option>
 
-                <div class="form-group">
-                    <label for="brand">Brand</label>
-                    <input type="text" name="brand" class="form-control" id="brand" aria-describedby="emailHelp"
-                        placeholder="Brand...">
-                </div>
-                <div class="form-group">
-                    <label for="model">Model</label>
-                    <input type="text" name="model" class="form-control" id="model" aria-describedby="emailHelp"
-                        placeholder="Model...">
-                </div>
-                <div class="form-group">
-                    <label for="constructionYear">Construction year</label>
-                    <input type="text" name="constructionYear" class="form-control" id="constructionYear"
-                        placeholder="Construction year...">
-                </div>
-                <div class="form-group">
-                    <label for="fuelType">Fuel type</label>
-                    <input type="text" name="fuelType" class="form-control" id="fuelType"
-                        placeholder="Fuel type - petrol, diesel, hybrid, electric...">
-                </div>
-                {{!-- <div class="form-group">
-                    <label for="dateStart">DateStart - Time</label>
-                    <input type="text" name="dateStart" class="form-control" id="dateStart"
-                        placeholder="29 December 2020 - 00:00 ...">
-                </div>
-                <div class="form-group">
-                    <label for="dateEnd">DateEnd - Time</label>
-                    <input type="text" name="dateEnd" class="form-control" id="dateEnd"
-                        placeholder="30 December 2020 - 00:00 ...">
-                </div> --}}
-                {{!-- <div class="form-group">
-                    <label for="carImage">Car Image (to upload image from internet - right click on image then select "Copy image address"</label>
-                    <input type="text" name="carImage" class="form-control" id="carImage" placeholder="https://...">
-                </div> --}}
+                    </select>
 
+                    <div class="form-group">
+                        <label for="brand">Brand</label>
+                        <input type="text" name="brand" class="form-control" id="brand" aria-describedby="emailHelp"
+                            placeholder="Brand..." value="{{rent.oldInputInformationAboutCarSpecifications.brand}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="model">Model</label>
+                        <input type="text" name="model" class="form-control" id="model" aria-describedby="emailHelp"
+                            placeholder="Model..." value="{{rent.oldInputInformationAboutCarSpecifications.model}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="constructionYear">Construction year</label>
+                        <input type="text" name="constructionYear" class="form-control" id="constructionYear"
+                            placeholder="Construction year..." value="{{rent.oldInputInformationAboutCarSpecifications.constructionYear}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="fuelType">Fuel type</label>
+                        <input type="text" name="fuelType" class="form-control" id="fuelType"
+                            placeholder="Fuel type - petrol, diesel, hybrid, electric..."
+                            value="{{rent.oldInputInformationAboutCarSpecifications.fuelType}}">
+                    </div>
 
-                <div >
-                    <label  for="carImage">Choose image</label>
-                    <input type="file" name="carImage"  id="carImage">
-                    {{!-- <img src="carImage" hidden class="responsive-img"> --}}
-                </div>
+                    <div>
+                        <label for="carImage">Choose image</label>
+                        <input type="file" name="carImage" id="carImage" value="{{rent.carImage}}">
+                        {{!-- <img src="carImage" hidden class="responsive-img"> --}}
+                    </div>
 
-                <div class="form-group">
-                    <label for="seats">Seats</label>
-                    <input min="1" max="6" name="seats" type="number" class="form-control" id="seats"
-                        placeholder="4...">
-                </div>
-                <div class="form-group">
-                    <label for="price">Price per day</label>
-                    <input type="text" name="price" class="form-control" id="price" placeholder="Price...">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+                    <div class="form-group">
+                        <label for="seats">Seats</label>
+                        <input min="1" max="6" name="seats" type="number" class="form-control" id="seats"
+                            placeholder="4..." value="{{rent.oldInputInformationAboutCarSpecifications.seats}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price per day</label>
+                        <input type="text" name="price" class="form-control" id="price" placeholder="Price..."
+                            value="{{rent.oldInputInformationAboutCarSpecifications.price}}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
         </div>
     </div>
 </section>

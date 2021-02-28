@@ -3,7 +3,7 @@ const { secret } = require('../config/config')
 
 module.exports = {
     createToken(data) {
-        return jwt.sign({ _id: data._id }, secret, { expiresIn: '1h' })
+        return jwt.sign({ _id: data._id }, secret, { expiresIn: '3h' })
     },
 
     verifyToken(token) {

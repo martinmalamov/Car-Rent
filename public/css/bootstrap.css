@@ -10284,11 +10284,12 @@ a::before {
 .tableContainer {
   border: 3px solid rgb(228, 155, 21);
   display: grid;
-  grid-template-columns: 25% 20% 20% 20% 15%;
+  grid-template-columns: 25% 15% 15% 15% 15% 15%;
   grid-auto-flow: column;
   /* justify-items: left; */
   align-items: center;
   margin-left: 1%;
+  margin-right: 1%;
   font-size: 20px;
   font-weight: 500;
 }
@@ -10296,11 +10297,13 @@ a::before {
 .tableUser {
   border: 3px solid green;
   display: grid;
-  grid-template-columns: 25% 20% 20% 20% 15%;
+  grid-template-columns: 25% 15% 15% 15% 15% 15%;
   grid-auto-flow: column;
   justify-items: left;
   align-items: center;
   margin-left: 1%;
+  margin-right: 1%;
+
 }
 
 .tableContainer span:not(:first-child) {
@@ -10309,3 +10312,92 @@ a::before {
 .tableUser span:not(:first-child) {
   border-left : 3px solid green;
 }
+
+.statusResult{
+  border: 2px solid var(--blue);
+  background-color: var(--blue);
+  width: 100%;
+}
+
+.leftSide {
+  float: left;
+}
+
+svg.svg-inline--fa.fa-check.fa-w-16:hover{
+  background-color: red;
+}
+
+.close {
+  opacity: 2;
+}
+
+.checkmark {
+  display:inline-block;
+  width: 22px;
+  height:22px;
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+  transform: rotate(45deg);
+  background-color: green;
+  margin-top: 2px;
+  cursor: pointer;
+}
+.checkmark:hover{
+  background-color: rgb(2, 62, 2);
+}
+
+.checkmark_stem {
+  position: absolute;
+  width: 3px;
+  height: 13px;
+  background-color: #ccc;
+  left: 11px;
+  top: 3px;
+}
+
+.checkmark_kick {
+  position: absolute;
+  width: 5px;
+  height: 3px;
+  background-color: #ccc;
+  left: 8px;
+  top: 13px;
+}
+
+.footer-container{
+  background: rgb(0,255,119);
+  background-color: var(--bg-primary);
+  color: white;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: column;
+  align-items: self-end;
+  padding: 5%;
+}
+
+.navigation {
+  width: 80%;
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr ;
+  grid-auto-flow: row;
+  justify-items: left;
+}
+
+.githubIcon{
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+}
+.githubText{
+  font-size: 1.1rem;
+}
+/* X icon */
+/* 
+.tag-remove::before {
+  content: 'x'; 
+  color: #fff;
+  font-weight: 300;
+  font-family: Arial, sans-serif;
+} */
+
+

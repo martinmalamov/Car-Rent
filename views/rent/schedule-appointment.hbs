@@ -2,25 +2,61 @@
     <img style="display: block; margin: 0 auto; max-width: 100px;margin-top:70px;"
         src="https://i-love-png.com/images/family-svg-clipart-white-3.png" />
     <h5 style="font-weight: bold;">Customers schedule</h5>
-     <div class="tableContainer">
+    <div class="tableContainer">
         <span>Full name</span>
         <span>Date from</span>
         <span>Date to</span>
-        <span>Hour begin </span>
-        <span>Hour end</span>
+        <span>Hour from </span>
+        <span>Hour to</span>
+        <span>Status</span>
     </div>
+    {{#if isTheDriver}}
     {{#each allScheduledUsersForRentForTable}}
-   
+
     <div class="tableUser">
         <span>{{ fullName }}</span>
         <span>{{ dateStart }}</span>
         <span>{{ dateEnd }}</span>
         <span>{{ startRentTime }}</span>
         <span>{{ endRentTime }}</span>
-    </div>
+        <span class="statusResult"><span class="leftSide">{{ statusResult }}</span>
+            <div>
+                <span class="checkmark">
+                    <div class="checkmark_stem"></div>
+                    <div class="checkmark_kick"></div>
+                </span>
+                {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
+                {{!-- </button> --}}
+                <button type="button" class="close" aria-label="Close"
+                    style="font-size:30px;width:30px;height:30;background-color:red;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </span>
 
-    {{else}}
-    <p>There is no users yet</p>
+    </div>
     {{/each}}
+
+    {{/if}}
+
+    {{#unless isTheDriver}}
+    {{#each allScheduledUsersForRentForTable}}
+
+    <div class="tableUser">
+        <span>{{ fullName }}</span>
+        <span>{{ dateStart }}</span>
+        <span>{{ dateEnd }}</span>
+        <span>{{ startRentTime }}</span>
+        <span>{{ endRentTime }}</span>
+        <span class="statusResult">{{ statusResult }}</span>
+    </div>
+    {{/each}}
+
+    {{/unless}}
+
+    {{!-- {{else}}
+    <p>There is no users yet</p> --}}
+
+
     <p style="font-weight:bold;">{{rent.driver.email}}</p>
 </div>

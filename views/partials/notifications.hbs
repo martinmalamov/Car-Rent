@@ -1,7 +1,9 @@
+{{#if message}}
 <section style="background-color:#F08080; padding: 1%; border-radius: 6px; width: 50%; margin: 0 auto; margin-top: 5%;">
     <p style="text-align: center; font-style: italic; font-size: 18px;"> {{message}} </p>
 </section>
-
+{{else}}
 <section style="background-color:#F08080; padding: 1%; border-radius: 6px; width: 50%; margin: 0 auto; margin-top: 5%;">
     <p style="text-align: center; font-style: italic; font-size: 18px;"> {{successJoin}} </p>
 </section>
+{{/if}}
