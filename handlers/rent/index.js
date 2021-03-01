@@ -97,6 +97,14 @@ module.exports = {
             })
         },
 
+        declined(req, res, next) {
+            const { id } = req.params
+            MakeAppointment.updateOne({ _id: id }).then((updateStatus) => {
+                res.redirect('/rent/schedule-appointment')
+            })
+        },
+
+
         joinRent(req, res, next) {
             const { id } = req.params
             console.log('You are in get:schedule-appointment!!!')
@@ -116,12 +124,14 @@ module.exports = {
                     // Handlebars: Access has been denied to resolve the property "fullName" because it is not an "own property" of its parent.
                     // You can add a runtime option to disable the check or this warning: 
                     //The lean method of mongoose returns plain JavaScript objects (POJOs), not Mongoose documents.
-                    await MakeAppointment.findById(allScheduledUsersForRent[k]).lean().then((array) => {
+                    await MakeAppointment.findByIdAndUpdate(allScheduledUsersForRent[k]).lean().then((array) => {
 
-                        console.log('array 147', array)
-                        if (array.status === false) {
-                            array.statusResult = 'Pending...'
-                        } else {
+                        let confirmStatus = true
+
+                        console.log('array 124', array)
+                        if (array.status === false && confirmStatus === false) {
+                            array.statusResult = 'Declined'
+                        } else if (array.status === true && confirmStatus === true) {
                             // if()
                             array.statusResult = 'Approved'
                         }
@@ -139,6 +149,7 @@ module.exports = {
                     userInfo: req.user ? req.user.fullName : '',
                     allScheduledUsersForRentForTable,
                     isTheDriver: JSON.stringify(rent.driver) === currentUser,
+                    statusResult: allScheduledUsersForRentForTable.statusResult
 
                 })
             })
@@ -149,8 +160,9 @@ module.exports = {
         joinRent(req, res, next) {
             const { id } = req.params
             const { _id } = req.user;
-            const status = false
-            const statusResult = ''
+            let status = false
+            let confirmStatus = true
+            let statusResult = ''
 
             const { dateStart, dateEnd, startRentTime, endRentTime } = req.body
             console.log('dateStart 162', dateStart)
@@ -168,8 +180,9 @@ module.exports = {
 
                     dateStart, dateEnd, startRentTime, endRentTime,
                     fullName,
-                    status: false,
-                    statusResult,
+                    status: status,
+                    confirmStatus: confirmStatus,
+                    statusResult: statusResult = "Pending...",
                     driver: _id,
                     client: id
                 })
@@ -177,7 +190,10 @@ module.exports = {
                         Promise.all([
                             Rent.updateOne({ _id: id }, { $push: { makeAppointmentIds: idFromMakeAppCollection._id } }),
                         ])
-                        console.log('idFromMakeAppCollection', idFromMakeAppCollection)
+
+                        // MakeAppointment.findByIdAndUpdate({ _id },
+                        //     { statusResult: idFromMakeAppCollection.statusResult = "Pending..." })
+                        // console.log('idFromMakeAppCollection', idFromMakeAppCollection)
 
                         if (!err) {
                             // Rent.findById(id).then((rent) => {
@@ -434,7 +450,27 @@ module.exports = {
 
 
     put: {
+        approved(req, res, next) {
+            const { id } = req.params
+            const { _id } = req.user;
 
+            console.log('makeAppointments collection id 110', id)
+            console.log('rent collection driver 111', _id)
+
+            try {
+                MakeAppointment.findById(id).updateOne({ $set: { status: true, confirmStatus: true } }).lean().then((updateStatus) => {
+                    console.log('updateStatus from approved 114 line', updateStatus)
+                })
+            } catch (error) {
+                console.error("465 line fail for APPROVED command");
+            }
+
+
+            MakeAppointment.findById(id).lean().then((makeAppEntities) => {
+                const rentId = makeAppEntities.client
+                res.redirect(`/rent/schedule-appointment/${rentId}`)
+            })
+        },
     }
 }
 

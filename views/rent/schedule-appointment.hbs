@@ -19,44 +19,71 @@
         <span>{{ dateEnd }}</span>
         <span>{{ startRentTime }}</span>
         <span>{{ endRentTime }}</span>
-        <span class="statusResult"><span class="leftSide">{{ statusResult }}</span>
-            <div>
-                <span class="checkmark">
-                    <div class="checkmark_stem"></div>
-                    <div class="checkmark_kick"></div>
-                </span>
-                {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
+
+        <div id="container-button">
+            <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
+            <form method="PUT" action="/rent/approved-rent/{{_id}}">
+                <button type="submit">
+                    <span class="checkmark">
+                        <div class="checkmark_stem"></div>
+                        <div class="checkmark_kick"></div>
+                    </span>
+                </button>
+            </form>
+            {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
                 {{!-- </button> --}}
+            <a href="/rent/declined-rent/{{_id}}">
                 <button type="button" class="close" aria-label="Close"
                     style="font-size:30px;width:30px;height:30;background-color:red;">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
-        </span>
+            </a>
+        </div>
+
 
     </div>
-    {{/each}}
+    </span>
 
-    {{/if}}
+</div>
+{{/each}}
 
-    {{#unless isTheDriver}}
-    {{#each allScheduledUsersForRentForTable}}
+{{/if}}
 
-    <div class="tableUser">
-        <span>{{ fullName }}</span>
-        <span>{{ dateStart }}</span>
-        <span>{{ dateEnd }}</span>
-        <span>{{ startRentTime }}</span>
-        <span>{{ endRentTime }}</span>
-        <span class="statusResult">{{ statusResult }}</span>
+{{#unless isTheDriver}}
+{{#each allScheduledUsersForRentForTable}}
+
+<div class="tableUser">
+    <span>{{ fullName }}</span>
+    <span>{{ dateStart }}</span>
+    <span>{{ dateEnd }}</span>
+    <span>{{ startRentTime }}</span>
+    <span>{{ endRentTime }}</span>
+    <div id="container-button">
+        <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
     </div>
-    {{/each}}
-
-    {{/unless}}
-
-    {{!-- {{else}}
-    <p>There is no users yet</p> --}}
+</div>
 
 
-    <p style="font-weight:bold;">{{rent.driver.email}}</p>
+
+{{/each}}
+
+{{/unless}}
+
+
+{{!-- {{else}}
+<p>There is no users yet</p> --}}
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('#approved').text() === "Approved") {
+            $('#container-button').css('background', 'green')
+        }
+        console.log($('#approved').text())
+        if ($('#approved').text() === "Pending...") {
+            $('#container-button').css('background', 'red')
+        }
+
+    }); 
+</script>
+
+<p style="font-weight:bold;">{{rent.driver.email}}</p>
 </div>

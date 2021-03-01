@@ -23,6 +23,10 @@ const makeAppointmentSchema = new Schema({
     status: {
         type: Boolean,
     },
+    confirmStatus: {
+        type: Boolean,
+    },
+    
     statusResult: {
         type: String,
     },
