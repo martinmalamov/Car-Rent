@@ -9,6 +9,22 @@ const path = require('path')
 
 module.exports = {
     get: {
+        myPosts(req, res, next) {
+            const fullName = req.user.fullName
+            let { id } = req.params
+            // console.log('FULL NAME from get rent', fullName)
+
+            Rent.findById(id).lean().then((rent) => {
+                // console.log('RENT', rent)
+                res.render('rent/shared-rent', {
+                    isLoggedIn: req.user !== undefined,
+                    userEmailLogout: req.user ? req.user.email : '',
+                    userInfo: req.user ? fullName : '',
+                    rent
+                })
+            })
+        },
+
         sharedRent(req, res, next) {
             const fullName = req.user.fullName
             // console.log('FULL NAME from get rent', fullName)
@@ -97,14 +113,6 @@ module.exports = {
             })
         },
 
-        declined(req, res, next) {
-            const { id } = req.params
-            MakeAppointment.updateOne({ _id: id }).then((updateStatus) => {
-                res.redirect('/rent/schedule-appointment')
-            })
-        },
-
-
         joinRent(req, res, next) {
             const { id } = req.params
             console.log('You are in get:schedule-appointment!!!')
@@ -126,7 +134,7 @@ module.exports = {
                     //The lean method of mongoose returns plain JavaScript objects (POJOs), not Mongoose documents.
                     await MakeAppointment.findByIdAndUpdate(allScheduledUsersForRent[k]).lean().then((array) => {
 
-                        let confirmStatus = true
+                        let confirmStatus = array.confirmStatus
 
                         console.log('array 124', array)
                         if (array.status === false && confirmStatus === false) {
@@ -465,6 +473,26 @@ module.exports = {
                 console.error("465 line fail for APPROVED command");
             }
 
+
+            MakeAppointment.findById(id).lean().then((makeAppEntities) => {
+                const rentId = makeAppEntities.client
+                res.redirect(`/rent/schedule-appointment/${rentId}`)
+            })
+        },
+
+        declined(req, res, next) {
+            const { id } = req.params
+            const { _id } = req.user;
+            console.log('makeAppointments collection id 470', id)
+            console.log('rent collection driver 471', _id)
+
+            try {
+                MakeAppointment.findById(id).updateOne({ $set: { status: false, confirmStatus: false } }).lean().then((updateStatus) => {
+                    console.log('updateStatus from declined 475', updateStatus)
+                })
+            } catch (error) {
+                console.error("476 line fail for DECLINED command");
+            }
 
             MakeAppointment.findById(id).lean().then((makeAppEntities) => {
                 const rentId = makeAppEntities.client

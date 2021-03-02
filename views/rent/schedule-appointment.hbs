@@ -32,14 +32,14 @@
             </form>
             {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
                 {{!-- </button> --}}
-            <a href="/rent/declined-rent/{{_id}}">
-                <button type="button" class="close" aria-label="Close"
+            <form method="PUT" action="/rent/declined-rent/{{_id}}">
+                <button type="submit" class="close" aria-label="Close" id="declined"
                     style="font-size:30px;width:30px;height:30;background-color:red;">
                     <span aria-hidden="true">&times;</span>
                 </button>
-            </a>
-        </div>
+            </form>
 
+        </div>
 
     </div>
     </span>
@@ -73,12 +73,12 @@
 {{!-- {{else}}
 <p>There is no users yet</p> --}}
 <script type="text/javascript">
-    $(document).ready(function () {
+    $(document).each(function () {
         if ($('#approved').text() === "Approved") {
             $('#container-button').css('background', 'green')
         }
-        console.log($('#approved').text())
-        if ($('#approved').text() === "Pending...") {
+        console.log($('#declined').text())
+        if ($('#approved').text() === "Declined") {
             $('#container-button').css('background', 'red')
         }
 

@@ -4,8 +4,10 @@ const isAuth = require('../utils/isAuth')
 const validations = require('../utils/validator')
 
 
-router.get('/declined-rent/:id', isAuth(), handler.get.declined)
+router.get('/declined-rent/:id', isAuth(), handler.put.declined)
 router.get('/approved-rent/:id', isAuth(), handler.put.approved)
+
+router.get('/my-posts/:id', isAuth(), handler.get.myPosts)
 
 router.get('/shared-rent', isAuth(), handler.get.sharedRent)
 router.get('/offer-rent', isAuth(), handler.get.offerRent)
