@@ -12,6 +12,11 @@ module.exports = {
         myPosts(req, res, next) {
             const fullName = req.user.fullName
             let { id } = req.params
+            let { _id } = req.user._id
+
+            User.findById(_id).lean().then((userCredentials)=>{
+                console.log('userCredentials line 18', userCredentials)
+            })
             // console.log('FULL NAME from get rent', fullName)
 
             Rent.findById(id).lean().then((rent) => {
@@ -69,15 +74,15 @@ module.exports = {
         detailsRent(req, res, next) {
             const { id } = req.params
             // console.log('FULLNAME', req.user.fullName)
-            console.log('Creator user id ', id)
+            // console.log('Creator user id ', id)
 
-            Rent.findById(id).populate('buddies').lean().then((rent) => {
+            Rent.findById(id).populate('makeAppointmentIds').lean().then((rent) => {
 
                 const currentUser = JSON.stringify(req.user._id)
-                // console.log('Driver user id', currentUser)
-                console.log('rent 81 line', rent.driver)
+                // console.log('owner_id user id', currentUser)
+                // console.log('rent 81 line', rent.owner_id)
 
-                User.findById(rent.driver).then((userICollection) => {
+                User.findById(rent.owner_id).then((userICollection) => {
                     const name = userICollection.fullName
 
                     res.render('rent/details-rent.hbs', {
@@ -88,28 +93,14 @@ module.exports = {
                         rent,
                         name,
                         //compare id of user
-                        isTheDriver: JSON.stringify(rent.driver) === currentUser,
-                        isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
+                        isTheOwner_id: JSON.stringify(rent.owner_id) === currentUser,
+                        isAlreadyJoined: JSON.stringify(rent.makeAppointmentIds).includes(currentUser),
                         isSeatsAvailable: availableSeats > 0,
                         availableSeats
                     })
                 })
 
                 const availableSeats = 1
-
-                // if()
-
-
-            })
-
-
-            // Promise.all([rentRequest, makeAppointmentRequest])
-        },
-
-        closeRent(req, res, next) {
-            const { id } = req.params
-            Rent.deleteOne({ _id: id }).then((deleteRent) => {
-                res.redirect('/rent/shared-rent')
             })
         },
 
@@ -117,14 +108,12 @@ module.exports = {
             const { id } = req.params
             console.log('You are in get:schedule-appointment!!!')
 
-
-
             Rent.findById(id).then(async (rent) => {
                 let allScheduledUsersForRent = []
+                console.log('rent makeAPp', rent)
                 for (let i = 0; i < rent.makeAppointmentIds.length; i++) {
                     allScheduledUsersForRent.push(rent.makeAppointmentIds[i])
                 }
-
                 let allScheduledUsersForRentForTable = []
 
                 for (let k = 0; k < allScheduledUsersForRent.length; k++) {
@@ -132,18 +121,21 @@ module.exports = {
                     // Handlebars: Access has been denied to resolve the property "fullName" because it is not an "own property" of its parent.
                     // You can add a runtime option to disable the check or this warning: 
                     //The lean method of mongoose returns plain JavaScript objects (POJOs), not Mongoose documents.
-                    await MakeAppointment.findByIdAndUpdate(allScheduledUsersForRent[k]).lean().then((array) => {
+                    await MakeAppointment.findById(allScheduledUsersForRent[k]).lean().then((array) => {
 
+                        console.log('array 137', array)
                         let confirmStatus = array.confirmStatus
+                        console.log('array 139', confirmStatus)
 
-                        console.log('array 124', array)
                         if (array.status === false && confirmStatus === false) {
                             array.statusResult = 'Declined'
+                            array.isApproved = false
                         } else if (array.status === true && confirmStatus === true) {
                             // if()
                             array.statusResult = 'Approved'
+                            array.isApproved = true
                         }
-                        console.log('array 144', array.statusResult)
+                        // console.log('array 144', array.statusResult)
                         allScheduledUsersForRentForTable.push(array)
                     })
                 }
@@ -156,7 +148,7 @@ module.exports = {
                     userEmailLogout: req.user ? req.user.email : '',
                     userInfo: req.user ? req.user.fullName : '',
                     allScheduledUsersForRentForTable,
-                    isTheDriver: JSON.stringify(rent.driver) === currentUser,
+                    isTheowner: JSON.stringify(rent.owner_id) === currentUser,
                     statusResult: allScheduledUsersForRentForTable.statusResult
 
                 })
@@ -179,8 +171,8 @@ module.exports = {
             console.log('fullname 193', fullName)
 
             Promise.all([
-                Rent.updateOne({ _id: id }, { $push: { buddies: _id } }),
-                User.updateOne({ _id }, { $push: { trippHistory: _id } })
+                Rent.updateOne({ _id: id }, { $push: { enrolledCustomers: _id } }),
+                User.updateOne({ _id }, { $push: { personalRents: _id } })
             ]).then((joinedUsers) => {
                 // console.log('joinedUsers 169', joinedUsers)
 
@@ -191,14 +183,14 @@ module.exports = {
                     status: status,
                     confirmStatus: confirmStatus,
                     statusResult: statusResult = "Pending...",
-                    driver: _id,
-                    client: id
+                    enrolledCustomers: _id,
+                    owner_id: id,
                 })
                     .then((idFromMakeAppCollection, err) => {
                         Promise.all([
-                            Rent.updateOne({ _id: id }, { $push: { makeAppointmentIds: idFromMakeAppCollection._id } }),
+                            Rent.updateOne({ _id: id },
+                                { $push: { makeAppointmentIds: idFromMakeAppCollection._id } })
                         ])
-
                         // MakeAppointment.findByIdAndUpdate({ _id },
                         //     { statusResult: idFromMakeAppCollection.statusResult = "Pending..." })
                         // console.log('idFromMakeAppCollection', idFromMakeAppCollection)
@@ -211,7 +203,6 @@ module.exports = {
                             //         }, 5000)
                             //     })
                             // }
-
 
                             //redirect accept only (status , path)
                             res.redirect(`/rent/details-rent/${id}`)
@@ -260,7 +251,6 @@ module.exports = {
                 }
             }
 
-
             const { _id } = req.user;
 
             const errors = validationResult(req)
@@ -297,6 +287,9 @@ module.exports = {
 
                 if (err) {
                     res.render('rent/offer-rent.hbs', {
+                        isLoggedIn: req.user !== undefined,
+                        userEmailLogout: req.user ? req.user.email : '',
+                        userInfo: req.user ? req.user.fullName : '',
                         message: err,
                         oldInputForRent: {
                             vehicleType, brand, model, constructionYear, fuelType,
@@ -307,12 +300,16 @@ module.exports = {
                     if (req.file == undefined) {
                         res.render('rent/offer-rent.hbs', {
                             message: 'Error: No File Selected(image is required)!',
-                            oldInputForRent: {
+                            isLoggedIn: req.user !== undefined,
+                            userEmailLogout: req.user ? req.user.email : '',
+                            userInfo: req.user ? req.user.fullName : '',
+                            oldInputInformationAboutCarSpecifications: {
                                 vehicleType, brand, model, constructionYear, fuelType,
                                 carImage, seats, price
-                            }
+                            },
                         });
                     } else {
+
 
                         Rent.create({
                             message: 'File Uploaded!',
@@ -334,9 +331,13 @@ module.exports = {
                                 carImage, seats, price
                             },
 
-                            driver: _id,
+                            owner_id: _id,
 
                         }).then((createdTripp) => {
+                            console.log('createTripp', createdTripp)
+                            Promise.all([
+                                User.updateOne({ _id }, { $push: { personalRents: createdTripp._id } })
+                            ])
                             res.redirect('/rent/shared-rent')
                         }).catch((err) => {
                             console.log(err)
@@ -400,12 +401,12 @@ module.exports = {
                     carImage, seats, price } = req.body
 
                 // const testReq = req;
-                // console.log("DRIVER ID line 357", testReq)
+                // console.log("owner_id ID line 357", testReq)
                 const id = req.params.id;
                 // console.log("Creator user id", id)
 
                 const { _id } = req.user._id;
-                // console.log('Driver id user', _id)
+                // console.log('owner_id id user', _id)
 
                 if (err) {
                     res.render(`/rent/offer-rent-edit.hbs/${id}`, {
@@ -441,7 +442,7 @@ module.exports = {
                                 vehicleType, brand, model, constructionYear, fuelType,
                                 carImage, seats, price
                             },
-                            driver: _id
+                            owner_id: _id
                             // $set: {
                             //     ...req.body
                             // }
@@ -458,45 +459,53 @@ module.exports = {
 
 
     put: {
-        approved(req, res, next) {
+        async approved(req, res, next) {
             const { id } = req.params
             const { _id } = req.user;
 
-            console.log('makeAppointments collection id 110', id)
-            console.log('rent collection driver 111', _id)
-
             try {
-                MakeAppointment.findById(id).updateOne({ $set: { status: true, confirmStatus: true } }).lean().then((updateStatus) => {
-                    console.log('updateStatus from approved 114 line', updateStatus)
-                })
+                await MakeAppointment.findById(id).updateOne(
+                    { $set: { status: true, confirmStatus: true } })
+                    .lean()
+                    .then((updateStatus) => {
+                        // console.log('updateStatus from approved 114 line', updateStatus)
+                    })
             } catch (error) {
                 console.error("465 line fail for APPROVED command");
             }
 
-
-            MakeAppointment.findById(id).lean().then((makeAppEntities) => {
-                const rentId = makeAppEntities.client
+            await MakeAppointment.findById(id).lean().then((makeAppEntities) => {
+                const rentId = makeAppEntities.owner_id
                 res.redirect(`/rent/schedule-appointment/${rentId}`)
             })
         },
 
-        declined(req, res, next) {
+        async declined(req, res, next) {
             const { id } = req.params
             const { _id } = req.user;
             console.log('makeAppointments collection id 470', id)
-            console.log('rent collection driver 471', _id)
+            console.log('rent collection owner_id 471', _id)
 
             try {
-                MakeAppointment.findById(id).updateOne({ $set: { status: false, confirmStatus: false } }).lean().then((updateStatus) => {
+                await MakeAppointment.findById(id).updateOne({ $set: { status: false, confirmStatus: false } }).lean().then((updateStatus) => {
                     console.log('updateStatus from declined 475', updateStatus)
                 })
             } catch (error) {
                 console.error("476 line fail for DECLINED command");
             }
 
-            MakeAppointment.findById(id).lean().then((makeAppEntities) => {
-                const rentId = makeAppEntities.client
+            await MakeAppointment.findById(id).lean().then((makeAppEntities) => {
+                const rentId = makeAppEntities.owner_id
                 res.redirect(`/rent/schedule-appointment/${rentId}`)
+            })
+        },
+    },
+
+    delete: {
+        closeRent(req, res, next) {
+            const { id } = req.params
+            Rent.deleteOne({ _id: id }).then((deleteRent) => {
+                res.redirect('/rent/shared-rent')
             })
         },
     }
@@ -524,8 +533,8 @@ module.exports = {
 //     // })
 //     // console.log('customersArray', a)
 
-//     // idOfCustomers.then((clients) => {
-//     //     customersArray.push(clients)
+//     // idOfCustomers.then((makeAppointmentIdss) => {
+//     //     customersArray.push(makeAppointmentIdss)
 //     //     console.log('test', customersArray)
 //     // })
 // }
@@ -552,7 +561,7 @@ module.exports = {
 // console.log('currentUser', currentUser)
 
 // Promise.all([
-//     Rent.updateOne({ _id: id }, { $push: { buddies: _id } }),
+//     Rent.updateOne({ _id: id }, { $push: { makeAppointmentIds: _id } }),
 //     User.updateOne({ _id }, { $push: { trippHistory: _id } })
 // ]).then(([updatedTripp, updatedUser]) => {
 //     res.redirect(`/rent/details-rent/${id}`)
@@ -563,7 +572,7 @@ module.exports = {
             // MakeAppointment.findById(makeAppId).then((rent) => {
 
             //     const currentUser = JSON.stringify(req.user._id)
-            //     // console.log('Driver user id', currentUser)
+            //     // console.log('owner_id user id', currentUser)
 
             //     const availableSeats = 1
 
@@ -574,8 +583,8 @@ module.exports = {
             //         userInfo: req.user ? req.user.fullName : '',
             //         rent,
             //         //compare id of user
-            //         isTheDriver: JSON.stringify(rent.driver) === currentUser,
-            //         isAlreadyJoined: JSON.stringify(rent.buddies).includes(currentUser),
+            //         isTheowner_id: JSON.stringify(rent.owner_id) === currentUser,
+            //         isAlreadyJoined: JSON.stringify(rent.makeAppointmentIds).includes(currentUser),
             //         isSeatsAvailable: availableSeats > 0,
             //         availableSeats
             //     })

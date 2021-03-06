@@ -4,86 +4,95 @@
     <h5 style="font-weight: bold;">Customers schedule</h5>
     <div class="tableContainer">
         <span>Full name</span>
-        <span>Date from</span>
-        <span>Date to</span>
-        <span>Hour from </span>
-        <span>Hour to</span>
-        <span>Status</span>
+        <span class="borderElement">Date from</span>
+        <span class="borderElement">Date to</span>
+        <span class="borderElement">Hour from </span>
+        <span class="borderElement">Hour to</span>
+        <span class="borderElement">Status</span>
     </div>
-    {{#if isTheDriver}}
-    {{#each allScheduledUsersForRentForTable}}
+    {{#if isTheowner}}
+        {{#each allScheduledUsersForRentForTable}}
 
-    <div class="tableUser">
-        <span>{{ fullName }}</span>
-        <span>{{ dateStart }}</span>
-        <span>{{ dateEnd }}</span>
-        <span>{{ startRentTime }}</span>
-        <span>{{ endRentTime }}</span>
+        <div class="tableUser">
+            <span class="borderElement">{{ fullName }}</span>
+            <span class="borderElement">{{ dateStart }}</span>
+            <span class="borderElement">{{ dateEnd }}</span>
+            <span class="borderElement">{{ startRentTime }}</span>
+            <span class="borderElement">{{ endRentTime }}</span>
 
-        <div id="container-button">
-            <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
-            <form method="PUT" action="/rent/approved-rent/{{_id}}">
-                <button type="submit">
-                    <span class="checkmark">
-                        <div class="checkmark_stem"></div>
-                        <div class="checkmark_kick"></div>
-                    </span>
-                </button>
-            </form>
-            {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
-                {{!-- </button> --}}
-            <form method="PUT" action="/rent/declined-rent/{{_id}}">
-                <button type="submit" class="close" aria-label="Close" id="declined"
-                    style="font-size:30px;width:30px;height:30;background-color:red;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </form>
+            {{#if isApproved}}
+                <div id="container-button" style="background-color:green;">
+                    <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
+                    <form method="PUT" action="/rent/approved-rent/{{_id}}">
+                        <button type="submit">
+                            <span class="checkmark">
+                                <div class="checkmark_stem"></div>
+                                <div class="checkmark_kick"></div>
+                            </span>
+                        </button>
+                    </form>
+    
+                    {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
+                        {{!-- </button> --}}
+                    <form method="PUT" action="/rent/declined-rent/{{_id}}">
+                        <button type="submit" class="close" aria-label="Close" id="close"
+                            style="font-size:30px;width:30px;height:30;background-color:red;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
 
+                 </div>
+            {{/if}}
+
+            {{#unless isApproved}}
+                <div id="container-button" style="background-color:rgb(198, 20, 20);">
+                    <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
+                    <form method="PUT" action="/rent/approved-rent/{{_id}}">
+                        <button type="submit">
+                            <span class="checkmark">
+                                <div class="checkmark_stem"></div>
+                                <div class="checkmark_kick"></div>
+                            </span>
+                        </button>
+                    </form>
+
+                    <form method="PUT" action="/rent/declined-rent/{{_id}}">
+                        <button type="submit" class="close" aria-label="Close" id="close"
+                            style="font-size:30px;width:30px;height:30;background-color:red;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+
+                </div>
+            {{/unless }}
         </div>
+        {{/each}}
+    {{/if}}
 
-    </div>
-    </span>
-
-</div>
-{{/each}}
-
-{{/if}}
-
-{{#unless isTheDriver}}
-{{#each allScheduledUsersForRentForTable}}
-
-<div class="tableUser">
-    <span>{{ fullName }}</span>
-    <span>{{ dateStart }}</span>
-    <span>{{ dateEnd }}</span>
-    <span>{{ startRentTime }}</span>
-    <span>{{ endRentTime }}</span>
-    <div id="container-button">
-        <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
-    </div>
-</div>
-
-
-
-{{/each}}
-
-{{/unless}}
-
-
-{{!-- {{else}}
-<p>There is no users yet</p> --}}
-<script type="text/javascript">
-    $(document).each(function () {
-        if ($('#approved').text() === "Approved") {
-            $('#container-button').css('background', 'green')
-        }
-        console.log($('#declined').text())
-        if ($('#approved').text() === "Declined") {
-            $('#container-button').css('background', 'red')
-        }
-
-    }); 
-</script>
-
-<p style="font-weight:bold;">{{rent.driver.email}}</p>
+    {{#unless isTheowner}}
+        {{#each allScheduledUsersForRentForTable}}
+            <div class="tableUser">
+                {{#if isApproved}}
+                    <span >{{ fullName }}</span>
+                    <span class="borderElement">{{ dateStart }}</span>
+                    <span class="borderElement">{{ dateEnd }}</span>
+                    <span class="borderElement">{{ startRentTime }}</span>
+                    <span class="borderElement">{{ endRentTime }}</span>
+                    <div id="container-button" style="background-color:green;">
+                        <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
+                    </div>
+                {{/if }}
+                {{#unless isApproved}}
+                    <span >{{ fullName }}</span>
+                    <span class="borderElement">{{ dateStart }}</span>
+                    <span class="borderElement">{{ dateEnd }}</span>
+                    <span class="borderElement">{{ startRentTime }}</span>
+                    <span class="borderElement">{{ endRentTime }}</span>
+                    <div id="container-button" style="background-color:rgb(198, 20, 20)">
+                        <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
+                    </div>
+                {{/unless }}
+            </div>
+        {{/each}}
+    {{/unless}}
 </div>

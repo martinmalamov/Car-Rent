@@ -27,7 +27,7 @@ const userSchema = new Schema({
         // required: true,
     },
 
-    trippHistory: [{
+    personalRents: [{
         type: ObjectId,
         ref: 'Rent'
     }]

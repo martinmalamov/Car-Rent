@@ -32,20 +32,15 @@ const makeAppointmentSchema = new Schema({
     },
 
 
-    client: {
+    enrolledCustomers: [{
+        type: ObjectId,
+        ref: 'User'
+    }],
+
+    owner_id: {
         type: ObjectId,
         ref: 'Rent'
     },
-
-    driver: {
-        type: ObjectId,
-        ref: 'User'
-    },
-
-    buddies: [{
-        type: ObjectId,
-        ref: 'User'
-    }]
 
 })
 

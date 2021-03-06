@@ -145,7 +145,9 @@ module.exports = {
                     })
                 })
                 .then((createdUser) => {
-                    return res.redirect('/user/login')
+                    const token = jwt.createToken(createdUser._id)
+                    res.status(201).cookie(cookie, token, { maxAge: 3600000 }).redirect('/rent/shared-rent')
+                    // return res.redirect('/rent/shared-rent')
                 })
                 .catch((err) => {
                     res.render('users/register.hbs', {

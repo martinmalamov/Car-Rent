@@ -43,15 +43,10 @@ const rentSchema = new Schema({
         required: true
     },
 
-    driver: {
+    owner_id: {
         type: ObjectId,
         ref: 'User'
     },
-
-    buddies: [{
-        type: ObjectId,
-        ref: 'User'
-    }],
     
     makeAppointmentIds: [{
         type: ObjectId,

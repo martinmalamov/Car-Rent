@@ -10289,7 +10289,7 @@ a.wipe::before {
 }
 
 .tableContainer {
-  border: 3px solid rgb(228, 155, 21);
+  border: 3px solid green;
   display: grid;
   grid-template-columns: 25% 15% 15% 15% 15% 15%;
   grid-auto-flow: column;
@@ -10312,12 +10312,12 @@ a.wipe::before {
   margin-right: 1%;
 
 }
-
-.tableContainer span:not(:first-child) {
+.borderElement {
   border-left : 3px solid green;
 }
-.tableUser span:not(:first-child) {
-  border-left : 3px solid green;
+
+div.tableUser span:first-child{
+  padding-left: 2%;
 }
 
 .statusResult{
@@ -10328,6 +10328,11 @@ a.wipe::before {
 
 .leftSide {
   float: left;
+  padding-left: 2%;
+}
+
+.tableUser .borderElement {
+  padding-left: 2%;
 }
 
 svg.svg-inline--fa.fa-check.fa-w-16:hover{
@@ -10364,11 +10369,11 @@ svg.svg-inline--fa.fa-check.fa-w-16:hover{
 
 .checkmark_kick {
   position: absolute;
-  width: 5px;
-  height: 3px;
-  background-color: #ccc;
-  left: 8px;
-  top: 13px;
+    width: 8px;
+    height: 3px;
+    background-color: #ccc;
+    left: 6px;
+    top: 13px;
 }
 
 .footer-container{
