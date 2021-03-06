@@ -2,14 +2,15 @@
     <!-- Jumbotron Header -->
     <header class="jumbotron my-4">
         <h1 class="display-3">My Posts!</h1>
-        <p class="lead">This page with all  posts you have been made</p>
+        <p class="lead" style="background-color: #7777">
+            This page with all  posts you have been made: {{allPostRents.length}}</p>
         <a href="/rent/shared-rent" class="btn btn-primary btn-lg">Back to all Publications!</a>
     </header>
 
     <!-- Page Features -->
     <div class="row text-center">
 
-        {{#each rent}}
+        {{#each allPostRents}}
         {{> rentCar}}
         {{else }}
         <div class="row text-center">

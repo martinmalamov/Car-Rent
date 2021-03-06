@@ -5,27 +5,30 @@ const MakeAppointment = require('../makeAppointment/MakeAppointment')
 
 const multer = require('multer')
 const path = require('path')
-//TODO add functionality for notificiations and schedule-appointment remove after certain hours
 
 module.exports = {
     get: {
         myPosts(req, res, next) {
             const fullName = req.user.fullName
-            let { id } = req.params
-            let { _id } = req.user._id
 
-            User.findById(_id).lean().then((userCredentials)=>{
-                console.log('userCredentials line 18', userCredentials)
-            })
-            // console.log('FULL NAME from get rent', fullName)
+            let personalRentArray = {}
+            let allPostRents = []
 
-            Rent.findById(id).lean().then((rent) => {
-                // console.log('RENT', rent)
-                res.render('rent/shared-rent', {
+            User.findById(req.user._id).lean().then(async (userCredentials) => {
+                personalRentArray = userCredentials.personalRents
+                console.log('rent array', personalRentArray)
+
+                for (let j = 0; j < personalRentArray.length; j++) {
+                    await Rent.findById(personalRentArray[j]).lean().then((rent) => {
+                        allPostRents.push(rent)
+                    })
+                }
+
+                res.render('rent/my-posts', {
                     isLoggedIn: req.user !== undefined,
                     userEmailLogout: req.user ? req.user.email : '',
                     userInfo: req.user ? fullName : '',
-                    rent
+                    allPostRents
                 })
             })
         },
@@ -322,10 +325,6 @@ module.exports = {
                             fuelType,
                             seats,
                             price,
-                            // oldInputForRent: {
-                            //     vehicleType, brand, model, constructionYear, fuelType,
-                            //     carImage, seats, price
-                            // },
                             oldInputInformationAboutCarSpecifications: {
                                 vehicleType, brand, model, constructionYear, fuelType,
                                 carImage, seats, price
@@ -443,9 +442,6 @@ module.exports = {
                                 carImage, seats, price
                             },
                             owner_id: _id
-                            // $set: {
-                            //     ...req.body
-                            // }
                         }).then((createdTripp) => {
                             res.redirect(`/rent/details-rent/${id}`)
                         }).catch((err) => {
@@ -510,82 +506,3 @@ module.exports = {
         },
     }
 }
-
-
-
-
-
-// // const [startPoint, endPoint] = directions.split(' - ')
-// // const [date, time] = dateStart.split(' - ')
-// // const [dateend, timeend] = dateEnd.split(' - ')
-
-// // console.log('req params ID ', req.params.id)
-// // console.log('body ' , req.body)
-
-
-
-// let customersArray = []
-
-// function addDevice() {
-
-//     // let idOfCustomers = new Promise((resolve, reject) => {
-//     //     return MakeAppointment.findById(id)
-//     // })
-//     // console.log('customersArray', a)
-
-//     // idOfCustomers.then((makeAppointmentIdss) => {
-//     //     customersArray.push(makeAppointmentIdss)
-//     //     console.log('test', customersArray)
-//     // })
-// }
-// console.log('test', addDevice())
-
-
-//2. let customersArray = []
-// for (let i = 0; i < idOfCustomers.length; i++) {
-//     customersArray.push(idOfCustomers[i]);
-// }
-// console.log('customersArray', customersArray)
-
-// console.log('mk id', MakeAppointment.findOne({id}))
-
-
-// 3.get : join rent code
-// const { id } = req.params
-// const { _id } = req.user
-// console.log('user id', id)
-// console.log('rent id', _id)
-
-// //stringify make literal to be string
-// const currentUser = JSON.stringify(req.user._id)
-// console.log('currentUser', currentUser)
-
-// Promise.all([
-//     Rent.updateOne({ _id: id }, { $push: { makeAppointmentIds: _id } }),
-//     User.updateOne({ _id }, { $push: { trippHistory: _id } })
-// ]).then(([updatedTripp, updatedUser]) => {
-//     res.redirect(`/rent/details-rent/${id}`)
-// })
-
-
-
-            // MakeAppointment.findById(makeAppId).then((rent) => {
-
-            //     const currentUser = JSON.stringify(req.user._id)
-            //     // console.log('owner_id user id', currentUser)
-
-            //     const availableSeats = 1
-
-            //     res.render('rent/details-rent.hbs', {
-            //         isLoggedIn: req.user !== undefined,
-            //         // userEmail: req.user ? req.user.email : '',
-            //         userEmailLogout: req.user ? req.user.email : '',
-            //         userInfo: req.user ? req.user.fullName : '',
-            //         rent,
-            //         //compare id of user
-            //         isTheowner_id: JSON.stringify(rent.owner_id) === currentUser,
-            //         isAlreadyJoined: JSON.stringify(rent.makeAppointmentIds).includes(currentUser),
-            //         isSeatsAvailable: availableSeats > 0,
-            //         availableSeats
-            //     })
-            // })
