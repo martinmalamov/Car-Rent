@@ -11,10 +11,10 @@ module.exports = {
         myPosts(req, res, next) {
             const fullName = req.user.fullName
 
-            let personalRentArray = {}
-            let allPostRents = []
 
             User.findById(req.user._id).lean().then(async (userCredentials) => {
+                let personalRentArray = {}
+                let allPostRents = []
                 personalRentArray = userCredentials.personalRents
                 console.log('rent array', personalRentArray)
 
@@ -453,54 +453,28 @@ module.exports = {
         }
     },
 
-
-    put: {
-        async approved(req, res, next) {
-            const { id } = req.params
-            const { _id } = req.user;
-
-            try {
-                await MakeAppointment.findById(id).updateOne(
-                    { $set: { status: true, confirmStatus: true } })
-                    .lean()
-                    .then((updateStatus) => {
-                        // console.log('updateStatus from approved 114 line', updateStatus)
-                    })
-            } catch (error) {
-                console.error("465 line fail for APPROVED command");
-            }
-
-            await MakeAppointment.findById(id).lean().then((makeAppEntities) => {
-                const rentId = makeAppEntities.owner_id
-                res.redirect(`/rent/schedule-appointment/${rentId}`)
-            })
-        },
-
-        async declined(req, res, next) {
-            const { id } = req.params
-            const { _id } = req.user;
-            console.log('makeAppointments collection id 470', id)
-            console.log('rent collection owner_id 471', _id)
-
-            try {
-                await MakeAppointment.findById(id).updateOne({ $set: { status: false, confirmStatus: false } }).lean().then((updateStatus) => {
-                    console.log('updateStatus from declined 475', updateStatus)
-                })
-            } catch (error) {
-                console.error("476 line fail for DECLINED command");
-            }
-
-            await MakeAppointment.findById(id).lean().then((makeAppEntities) => {
-                const rentId = makeAppEntities.owner_id
-                res.redirect(`/rent/schedule-appointment/${rentId}`)
-            })
-        },
-    },
-
     delete: {
         closeRent(req, res, next) {
-            const { id } = req.params
-            Rent.deleteOne({ _id: id }).then((deleteRent) => {
+            const id = req.params.id
+            const { _id } = req.user
+
+            User.findById(req.user._id).then(async (userInf) => {
+                for (let i = 0; i < userInf.personalRents.length; i++) {
+                    console.log('userInf.personalRents.length', userInf.personalRents[i])
+
+                    if (userInf.personalRents.includes(id)) {
+                        console.log('removeelement', req.params)
+                        //todo delete from database !!! 
+                        await User.updateOne({ _id }, { $pull: { personalRents: id } })
+                        // userInf.personalRents.splice(i, 1)
+                    } else {
+                        console.log('FAIL')
+                    }
+                }
+                await Rent.deleteOne({ _id: id })
+                console.log('user iii@abv.bg ', req.user._id)
+                console.log('rent id ', id)
+
                 res.redirect('/rent/shared-rent')
             })
         },

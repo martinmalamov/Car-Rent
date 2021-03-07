@@ -23,7 +23,7 @@
             {{#if isApproved}}
                 <div id="container-button" style="background-color:green;">
                     <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
-                    <form method="PUT" action="/rent/approved-rent/{{_id}}">
+                    <form method="PUT" action="/makeAppointment/approved-rent/{{_id}}">
                         <button type="submit">
                             <span class="checkmark">
                                 <div class="checkmark_stem"></div>
@@ -34,7 +34,7 @@
     
                     {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
                         {{!-- </button> --}}
-                    <form method="PUT" action="/rent/declined-rent/{{_id}}">
+                    <form method="PUT" action="/makeAppointment/declined-rent/{{_id}}">
                         <button type="submit" class="close" aria-label="Close" id="close"
                             style="font-size:30px;width:30px;height:30;background-color:red;">
                             <span aria-hidden="true">&times;</span>
@@ -47,7 +47,7 @@
             {{#unless isApproved}}
                 <div id="container-button" style="background-color:rgb(198, 20, 20);">
                     <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
-                    <form method="PUT" action="/rent/approved-rent/{{_id}}">
+                    <form method="PUT" action="/makeAppointment/approved-rent/{{_id}}">
                         <button type="submit">
                             <span class="checkmark">
                                 <div class="checkmark_stem"></div>
@@ -56,7 +56,7 @@
                         </button>
                     </form>
 
-                    <form method="PUT" action="/rent/declined-rent/{{_id}}">
+                    <form method="PUT" action="/makeAppointment/declined-rent/{{_id}}">
                         <button type="submit" class="close" aria-label="Close" id="close"
                             style="font-size:30px;width:30px;height:30;background-color:red;">
                             <span aria-hidden="true">&times;</span>

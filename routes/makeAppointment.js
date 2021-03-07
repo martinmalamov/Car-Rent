@@ -1,10 +1,16 @@
-// const router = require('express').Router()
-// const handler = require('../handlers/makeAppointment')
-// const isAuth = require('../utils/isAuth')
-// const validations = require('../utils/validator')
+const router = require('express').Router()
+const handler = require('../handlers/makeAppointment')
+const isAuth = require('../utils/isAuth')
+const validations = require('../utils/validator')
 
-// router.get('/join-rent/:id', isAuth(), handler.get.joinRent)
+//GET
+router.get('/schedule-appointment/:id', isAuth(), handler.get.joinRent)
 
-// router.post('/join-rent/:id', isAuth(), handler.post.joinRent)
+//POST
+router.post('/join-rent/:id', isAuth(), handler.post.joinRent)
 
-// module.exports = router
+//PUT
+router.get('/approved-rent/:id', isAuth(), handler.put.approved)
+router.get('/declined-rent/:id', isAuth(), handler.put.declined)
+
+module.exports = router

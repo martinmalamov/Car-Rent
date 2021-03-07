@@ -1,6 +1,5 @@
 <section class="py-5" style="border:1px solid black;">
     <div style="padding: 2%;" class="container">
-        <!-- Start and End point -->
         <div>
             <b>Owner:</b> <i>{{name}}</i>
         </div>
@@ -42,7 +41,7 @@
                         }
                     </script>
 
-                    <a href="/rent/schedule-appointment/{{rent._id}}" class="btn btn-info">
+                    <a href="/makeAppointment/schedule-appointment/{{rent._id}}" class="btn btn-info">
                         Check list of customers </a>
 
                     <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
@@ -56,19 +55,13 @@
                             class="btn btn-success align-self-start mr-auto">
                             You already rent this car !</button>
 
-                        <a href="/rent/schedule-appointment/{{rent._id}}" class="btn btn-info">
+                        <a href="/makeAppointment/schedule-appointment/{{rent._id}}" class="btn btn-info">
                             Check your schedule</a>
                     </div>
                 </div>
 
-                {{!-- {{else}}
-
-                {{#if isSeatsAvailable}}
-                <a href="/rent/join-rent/{{ rent._id }}" class="btn btn-info">Rent a car now</a>
-                {{!-- <a href="/rent/join-rent/{{ rent._id }}" class="btn btn-info">Join now, [{{availableSeats}}] seats
-                    left</a> --}}
                 {{else}}
-                <form method="POST" action="/rent/join-rent/{{rent._id}}">
+                <form method="POST" action="/makeAppointment/join-rent/{{rent._id}}">
                     <div style="display: flex; width: 100%;margin-top:50px;">
                         <div style="width: 40%;">
                             <div>
@@ -179,13 +172,7 @@
                                 now</button>
                         </div>
                     </div>
-
-                    {{!-- <a href="/rent/join-rent/{{ rent._id }}" class="btn btn-info">Rent a car now</a> --}}
-                    {{!-- <a href="/rent/schedule-appointment/{{rent._id}}" class="btn btn-info">Rent a car now</a>
-                    --}}
-                    {{!-- <a href="/rent/join-rent/{{rent._id}}" class="btn btn-info">Rent a car now</a> --}}
                 </form>
-                {{!-- {{/if}} --}}
 
                 {{/if}}
 
@@ -195,24 +182,5 @@
         </div>
 
         <hr>
-
-        {{!-- <div style="text-align: center; width: 100%;">
-            <img style="display: block; margin: 0 auto; max-width: 100px;"
-                src="https://i-love-png.com/images/family-svg-clipart-white-3.png" />
-            <h5 style="font-weight: bold;">Rented car user </h5>
-            {{#each makeAppointment}}
-            <div>
-                <span>{{ this.fullName }}</span>
-                <span>{{ dateStart }}</span>
-                <span>{{ this.dateEnd }}</span>
-                <span>{{ this.startRentTime }}</span>
-                <span>{{ this.endRentTime }}</span>
-            </div>
-
-            {{else}}
-            <p>There is no users yet</p>
-            {{/each}}
-            <p style="font-weight:bold;">{{rent.driver.email}}</p>
-        </div> --}}
     </div>
 </section>
