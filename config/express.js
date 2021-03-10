@@ -2,13 +2,10 @@ const express = require('express')
 const User = require('../handlers/users/User')
 const cookieParser = require('cookie-parser')
 const handlebars = require('express-handlebars')
-
-var path = require("path");
-const { cookie } = require('../config/config')
-const jwt = require('../utils/jwt')
+// const { cookie } = require('../config/config')
+// const jwt = require('../utils/jwt')
 
 var bodyParser = require('body-parser');
-
 
 module.exports = (app) => {
     app.engine('hbs', handlebars({

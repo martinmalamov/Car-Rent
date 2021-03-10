@@ -10262,8 +10262,15 @@ footer {
   width:100%;
 }
 
+.centerItems {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center !important;
+  margin: 0 !important;
+}
 
-a::before {
+/* a::before {
 	content: '';
 	display: inline-block;
 	
@@ -10278,7 +10285,7 @@ a::before {
 	
 	transform: rotate(45deg); 
 	
-}
+} */
 
 a.wipe::before {
 	display: block;
@@ -10377,14 +10384,25 @@ svg.svg-inline--fa.fa-check.fa-w-16:hover{
 }
 
 .footer-container{
+  height: 260px;
   background: rgb(0,255,119);
   background-color: var(--bg-primary);
   color: white;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-flow: column;
-  align-items: self-end;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-auto-flow: rows;
+  text-align: center;
   padding: 5%;
+}
+
+#sizeOfFooterIcons{
+  font-size: 43px;
+}
+#github {
+  color: rgb(130, 11, 194);
+}
+#github:hover{
+  color: rgb(101, 8, 152);
 }
 
 .navigation {

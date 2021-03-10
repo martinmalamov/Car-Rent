@@ -62,6 +62,13 @@ module.exports = {
             const { id } = req.params;
             console.log('you are in GET now', id)
 
+            const storage = multer.diskStorage({
+                destination: './public/uploads_edit/',
+                filename: function (req, file, cb) {
+                    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+                }
+            });
+
             Rent.findOne({ _id: id }).lean()
                 .then((rent) => {
                     const fullName = req.user.fullName
