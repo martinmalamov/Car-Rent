@@ -60,12 +60,13 @@ module.exports = {
 
         offerRentEdit(req, res, next) {
             const { id } = req.params;
+            console.log('you are in GET now', id)
 
             Rent.findOne({ _id: id }).lean()
                 .then((rent) => {
                     const fullName = req.user.fullName
 
-                    res.render(`rent/offer-rent-edit.hbs`, {
+                    res.render(`rent/offer-rent-edit`, {
                         isLoggedIn: req.user !== undefined,
                         userEmailLogout: req.user ? req.user.email : '',
                         userInfo: req.user ? fullName : '',
@@ -386,7 +387,7 @@ module.exports = {
             console.log("ERROR", errors)
 
             if (!errors.isEmpty()) {
-                res.render(`rent/offer-rent-edit/${id}.hbs`, {
+                res.render(`rent/offer-rent-edit/${id}`, {
                     isLoggedIn: req.user !== undefined,
                     userEmail: req.user ? req.user.email : '',
                     message: errors.array()[0].msg
@@ -401,25 +402,34 @@ module.exports = {
 
                 // const testReq = req;
                 // console.log("owner_id ID line 357", testReq)
-                const id = req.params.id;
-                // console.log("Creator user id", id)
+                const { id } = req.params;
+                console.log("Creator user id", id)
 
                 const { _id } = req.user._id;
-                // console.log('owner_id id user', _id)
+                console.log('owner_id id user', _id)
 
                 if (err) {
+                    console.log('error 1', err)
                     res.render(`/rent/offer-rent-edit.hbs/${id}`, {
+                        isLoggedIn: req.user !== undefined,
+                        userEmailLogout: req.user ? req.user.email : '',
+                        userInfo: req.user ? req.user.fullName : '',
                         message: err,
-                        oldInputForRent: {
+                        oldInputInformationAboutCarSpecifications: {
                             vehicleType, brand, model, constructionYear, fuelType,
                             carImage, seats, price
                         }
                     });
                 } else {
-                    if (req.file == undefined) {
-                        res.render(`/rent/offer-rent-edit.hbs/${id}`, {
+
+                    if (req.file === undefined) {
+
+                        res.render(`rent/offer-rent-edit`, {
+                            isLoggedIn: req.user !== undefined,
+                            userEmailLogout: req.user ? req.user.email : '',
+                            userInfo: req.user ? req.user.fullName : '',
                             message: 'Error: No File Selected(image is required)!',
-                            oldInputForRent: {
+                            oldInputInformationAboutCarSpecifications: {
                                 vehicleType, brand, model, constructionYear, fuelType,
                                 carImage, seats, price
                             }
@@ -442,7 +452,7 @@ module.exports = {
                                 carImage, seats, price
                             },
                             owner_id: _id
-                        }).then((createdTripp) => {
+                        }).then((rent) => {
                             res.redirect(`/rent/details-rent/${id}`)
                         }).catch((err) => {
                             console.log(err)

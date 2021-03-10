@@ -1,5 +1,5 @@
-<section class="py-5" style="border:1px solid black;">
-    <div style="padding: 2%;" class="container">
+<section class="py-5"style="border:1px solid black;">
+    <div style="padding: 2%;" class="container ">
         <div>
             <b>Owner:</b> <i>{{name}}</i>
         </div>
@@ -7,137 +7,100 @@
         <hr>
 
         <div style="display: flex;flex-direction: column; border-radius: 5px;">
-            <div style="width: 100%; display: flex;">
-                <img style="min-width:280px ;width:500px;height:400px; max-width: 500px;margin:0 auto;"
-                    class="img-fluid rounded" src="{{rent.carImage}}" alt="">
-            </div>
-
-            <div style="width: 100%; word-wrap: break-word; padding: 1%;text-align:center;  position:relative; ">
-
-                <span style="width: 50%; word-wrap: break-word;" class="lead">{{ rent.vehicleType}}, </span>
-                <span style="width: 50%; word-wrap: break-word;" class="lead">{{ rent.brand}} , </span>
-                <span style="width: 50%; word-wrap: break-word;" class="lead">{{ rent.model}} , </span>
-                <span style="width: 50%; word-wrap: break-word;" class="lead">{{ rent.constructionYear}} ,</span>
-                <span style="width: 100%; word-wrap: break-word;" class="lead">{{ rent.fuelType}} ,</span>
-                <span style="width: 100%; word-wrap: break-word;" class="lead">seats {{ rent.seats}} ,</span>
-                <span style="width: 100%; word-wrap: break-word;" class="lead">price per day {{ rent.price}} ,</span>
-
-
-                {{#if isTheOwner_id}}
-
-                <div style="width: 100%;min-height:200px;">
-
-                    <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger delete" onclick="return myConfirm();"
-                        type="submit">Close this rent</a>
-                    <script>
-                        function myConfirm() {
-                            var result = confirm("Confirm delete !!!");
-                            if (result == true) {
-
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    </script>
-
-                    <a href="/makeAppointment/schedule-appointment/{{rent._id}}" class="btn btn-info">
-                        Check list of customers </a>
-
-                    <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
+            <div style="width: 100%;     width: 100%;
+    display: flex;justify-content: space-between;flex-wrap: wrap; height: 350px;">
+                <div style="position: relative;width:50%;min-width: 250px;min-height: 200px;">
+                    <img style="min-width: 270px; min-width: 200px; width: 500px;height: 400px;
+                    ;min-height: 180px;width: 100%; max-height: 500px;
+                     max-width: 500px;" class="img-fluid rounded" src="{{rent.carImage}}" alt="">
+                    <span style="position: absolute;left: 0; top: 0;font-weight: bold;padding: 1px 7px;
+                        background-color: mediumseagreen; border-radius:3px;" class="lead">price per day {{
+                        rent.price}} </span>
                 </div>
-                {{else}}
 
-                {{#if isAlreadyJoined}}
-                <div class="container h-100" style="margin-top:3%;">
-                    <div class="d-flex h-100">
-                        <button style="cursor: default;padding:20px" type="button"
-                            class="btn btn-success align-self-start mr-auto">
-                            You already rent this car !</button>
-
-                        <a href="/makeAppointment/schedule-appointment/{{rent._id}}" class="btn btn-info">
-                            Check your schedule</a>
+                <div style="display: block;">
+                    <div>
+                        <div style="font-size:22px;"><b>Car specifications: </b></div>
+                        <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead">brand - {{
+                            rent.brand}} </div>
+                        <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead">model - {{
+                            rent.model}} </div>
+                        <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead">type - {{
+                            rent.vehicleType}}</div>
+                        <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead">year - {{
+                            rent.constructionYear}}</div>
+                        <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead">fuel - {{
+                            rent.fuelType}} </div>
+                        <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead">seats - {{
+                            rent.seats}} </div>
                     </div>
                 </div>
 
-                {{else}}
-                <form method="POST" action="/makeAppointment/join-rent/{{rent._id}}">
-                    <div style="display: flex; width: 100%;margin-top:50px;">
-                        <div style="width: 40%;">
-                            <div>
+            </div>
+        </div>
 
-                                <i style="width: 100px;height:100px;" class="far fa-calendar-alt"aria-hidden="true"></i>
-                                <h5 style="display: block; margin: 0 auto; text-align: center; font-weight: bold;"
-                                    class="mt-4">
-                                    <label for="dateStart">Choose a date from:</label>
-                                    <select name="dateStart" id="dateStart" required>
-                                        <option>Monday</option>
-                                        <option>Tuesday</option>
-                                        <option>Wendsay</option>
-                                        <option>Thursday</option>
-                                        <option>Friday</option>
-                                        <option>Saturday</option>
-                                        <option>Sunday</option>
-                                    </select>
+        <div style="width: 100%; word-wrap: break-word; padding: 1%;text-align:center;  position:relative; ">
 
-                                    <div>
-                                        <label for="startRentTime">Choose rent time from:</label>
-                                        <select name="startRentTime" id="startRentTime" required>
-                                            <option value="1am">1 AM</option>
-                                            <option value="2am">2 AM</option>
-                                            <option value="3am">3 AM</option>
-                                            <option value="4am">4 AM</option>
-                                            <option value="5am">5 AM</option>
-                                            <option value="6am">6 AM</option>
-                                            <option value="7am">7 AM</option>
-                                            <option value="8am">8 AM</option>
-                                            <option value="9am">9 AM</option>
-                                            <option value="10am">10 AM</option>
-                                            <option value="11am">11 AM</option>
-                                            <option value="12am">12 AM</option>
-                                            <option value="1pm">1 PM</option>
-                                            <option value="2pm">2 PM</option>
-                                            <option value="3pm">3 PM</option>
-                                            <option value="4pm">4 PM</option>
-                                            <option value="5pm">5 PM</option>
-                                            <option value="6pm">6 PM</option>
-                                            <option value="7pm">7 PM</option>
-                                            <option value="8pm">8 PM</option>
-                                            <option value="9pm">9 PM</option>
-                                            <option value="10pm">10 PM</option>
-                                            <option value="11pm">11 PM</option>
-                                            <option value="12pm">12 PM</option>
-                                        </select>
-                                    </div>
+            {{#if isTheOwner_id}}
 
-                                </h5>
-                            </div>
-                        </div>
+            <div style="width: 100%;min-height:200px;">
 
+                <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger delete" onclick="return myConfirm();"
+                    type="submit">Close this rent</a>
+                <script>
+                    function myConfirm() {
+                        var result = confirm("Confirm delete !!!");
+                        if (result == true) {
 
-                        <div style="text-align: center; width: 40%;height:100px;">
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                </script>
 
-                            <i style="width: 100%;height:100%;" class="far fa-calendar-alt"></i>
+                <a href="/makeAppointment/schedule-appointment/{{rent._id}}" class="btn btn-info">
+                    Check list of customers </a>
+
+                <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
+            </div>
+            {{else}}
+
+            {{#if isAlreadyJoined}}
+            <div class="container h-100" style="margin-top:3%;">
+                <div class="d-flex h-100">
+                    <button style="cursor: default;padding:20px" type="button"
+                        class="btn btn-success align-self-start mr-auto">
+                        You already rent this car !</button>
+
+                    <a href="/makeAppointment/schedule-appointment/{{rent._id}}" class="btn btn-info">
+                        Check your schedule</a>
+                </div>
+            </div>
+
+            {{else}}
+            <form method="POST" action="/makeAppointment/join-rent/{{rent._id}}">
+                <div style="display: flex; width: 100%;margin-top:50px;">
+                    <div style="width: 40%;">
+                        <div>
+
+                            <i style="width: 100px;height:100px;" class="far fa-calendar-alt" aria-hidden="true"></i>
                             <h5 style="display: block; margin: 0 auto; text-align: center; font-weight: bold;"
                                 class="mt-4">
-                                {{!-- to {{rent.date}} {{rent.time}} --}}
+                                <label for="dateStart">Choose a date from:</label>
+                                <select name="dateStart" id="dateStart" required>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wendsay</option>
+                                    <option>Thursday</option>
+                                    <option>Friday</option>
+                                    <option>Saturday</option>
+                                    <option>Sunday</option>
+                                </select>
 
                                 <div>
-                                    <label for="dateEnd">Choose a date to:</label>
-                                    <select name="dateEnd" id="dateEnd" required>
-                                        <option>Monday</option>
-                                        <option>Tuesday</option>
-                                        <option>Wendsay</option>
-                                        <option>Thursday</option>
-                                        <option>Friday</option>
-                                        <option>Saturday</option>
-                                        <option>Sunday</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label for="endRentTime">Choose rent time to:</label>
-                                    <select name="endRentTime" id="endRentTime" required>
+                                    <label for="startRentTime">Choose rent time from:</label>
+                                    <select name="startRentTime" id="startRentTime" required>
                                         <option value="1am">1 AM</option>
                                         <option value="2am">2 AM</option>
                                         <option value="3am">3 AM</option>
@@ -167,20 +130,74 @@
 
                             </h5>
                         </div>
-                        <div style="width:20%; display: flex;flex-direction: column;">
-                            <button style="margin-top: auto;" type="submit" class="btn btn-primary">Rent a car
-                                now</button>
-                        </div>
                     </div>
-                </form>
 
-                {{/if}}
 
-                {{/if }}
+                    <div style="text-align: center; width: 40%;height:100px;">
 
-            </div>
+                        <i style="width: 100%;height:100%;" class="far fa-calendar-alt"></i>
+                        <h5 style="display: block; margin: 0 auto; text-align: center; font-weight: bold;" class="mt-4">
+                            {{!-- to {{rent.date}} {{rent.time}} --}}
+
+                            <div>
+                                <label for="dateEnd">Choose a date to:</label>
+                                <select name="dateEnd" id="dateEnd" required>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wendsay</option>
+                                    <option>Thursday</option>
+                                    <option>Friday</option>
+                                    <option>Saturday</option>
+                                    <option>Sunday</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="endRentTime">Choose rent time to:</label>
+                                <select name="endRentTime" id="endRentTime" required>
+                                    <option value="1am">1 AM</option>
+                                    <option value="2am">2 AM</option>
+                                    <option value="3am">3 AM</option>
+                                    <option value="4am">4 AM</option>
+                                    <option value="5am">5 AM</option>
+                                    <option value="6am">6 AM</option>
+                                    <option value="7am">7 AM</option>
+                                    <option value="8am">8 AM</option>
+                                    <option value="9am">9 AM</option>
+                                    <option value="10am">10 AM</option>
+                                    <option value="11am">11 AM</option>
+                                    <option value="12am">12 AM</option>
+                                    <option value="1pm">1 PM</option>
+                                    <option value="2pm">2 PM</option>
+                                    <option value="3pm">3 PM</option>
+                                    <option value="4pm">4 PM</option>
+                                    <option value="5pm">5 PM</option>
+                                    <option value="6pm">6 PM</option>
+                                    <option value="7pm">7 PM</option>
+                                    <option value="8pm">8 PM</option>
+                                    <option value="9pm">9 PM</option>
+                                    <option value="10pm">10 PM</option>
+                                    <option value="11pm">11 PM</option>
+                                    <option value="12pm">12 PM</option>
+                                </select>
+                            </div>
+
+                        </h5>
+                    </div>
+                    <div style="width:20%; display: flex;flex-direction: column;">
+                        <button style="margin-top: auto;" type="submit" class="btn btn-primary">Rent a car
+                            now</button>
+                    </div>
+                </div>
+            </form>
+
+            {{/if}}
+
+            {{/if }}
+
         </div>
+    </div>
 
-        <hr>
+    <hr>
     </div>
 </section>

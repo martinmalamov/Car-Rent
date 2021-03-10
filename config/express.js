@@ -3,7 +3,7 @@ const User = require('../handlers/users/User')
 const cookieParser = require('cookie-parser')
 const handlebars = require('express-handlebars')
 
-
+var path = require("path");
 const { cookie } = require('../config/config')
 const jwt = require('../utils/jwt')
 
