@@ -35,7 +35,13 @@ module.exports = {
 
         sharedRent(req, res, next) {
             const fullName = req.user.fullName
-            // console.log('FULL NAME from get rent', fullName)
+            let firstName = ''
+            for (let i = 0; i < fullName.length; i++) {
+                if (fullName[i] === ' ') {
+                    break
+                }
+                firstName += fullName[i]
+            }
 
             Rent.find().lean().then((rent) => {
                 // console.log('RENT', rent)
@@ -43,6 +49,7 @@ module.exports = {
                     isLoggedIn: req.user !== undefined,
                     userEmailLogout: req.user ? req.user.email : '',
                     userInfo: req.user ? fullName : '',
+                    firstName,
                     rent
                 })
             })
@@ -401,17 +408,17 @@ module.exports = {
 
                 if (err) {
                     Rent.findOne({ _id: id }).lean()
-                    .then((rent) => {
-                        res.render(`rent/offer-rent-edit`, {
-                            isLoggedIn: req.user !== undefined,
-                            userEmailLogout: req.user ? req.user.email : '',
-                            userInfo: req.user ? req.user.fullName : '',
-                            message: err,
-                            rent
+                        .then((rent) => {
+                            res.render(`rent/offer-rent-edit`, {
+                                isLoggedIn: req.user !== undefined,
+                                userEmailLogout: req.user ? req.user.email : '',
+                                userInfo: req.user ? req.user.fullName : '',
+                                message: err,
+                                rent
+                            })
                         })
-                    })
 
-                return
+                    return
                 } else {
 
                     if (req.file === undefined) {
