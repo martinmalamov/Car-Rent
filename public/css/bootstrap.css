@@ -8320,6 +8320,7 @@ button.bg-dark:focus {
 .pt-2,
 .py-2 {
   padding-top: 0.5rem !important;
+  
 }
 
 .pr-2,
@@ -10435,3 +10436,19 @@ svg.svg-inline--fa.fa-check.fa-w-16:hover{
 } */
 
 
+
+
+@media (max-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+
+  a.btn {
+    font-size: 0.75rem;
+    padding: 0.2rem;
+  }
+
+  .btn-danger2 {
+    left: 43%;
+  }
+}

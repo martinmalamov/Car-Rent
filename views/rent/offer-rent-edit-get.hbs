@@ -2,7 +2,8 @@
     <div class="container">
         <h1 style="margin: 2%; text-align: center;">Offer Rent</h1>
         <div style="padding: 5%;">
-            <form method="POST" action="/rent/offer-rent-edit/{{rent._id}}" enctype="multipart/form-data">
+            <form method="GET" action="/rent/offer-rent-edit-get/{{rent._id}}" enctype="multipart/form-data">
+                {{!-- <form method="POST" action="/rent/offer-rent-edit/" enctype="multipart/form-data"> --}}
 
                     <label for="vehicleType">Choose vehicle type:</label>
                     <select id="vehicleType" name="vehicleType">

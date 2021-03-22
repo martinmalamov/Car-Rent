@@ -84,8 +84,6 @@ module.exports = {
 
         detailsRent(req, res, next) {
             const { id } = req.params
-            // console.log('FULLNAME', req.user.fullName)
-            // console.log('Creator user id ', id)
 
             Rent.findById(id).populate('makeAppointmentIds').lean().then((rent) => {
 
@@ -150,8 +148,6 @@ module.exports = {
                         allScheduledUsersForRentForTable.push(array)
                     })
                 }
-                // console.log('allScheduledUsersForRentForTable 151', allScheduledUsersForRentForTable)
-
                 const currentUser = JSON.stringify(req.user._id)
 
                 res.render('rent/schedule-appointment', {
@@ -185,8 +181,6 @@ module.exports = {
                 Rent.updateOne({ _id: id }, { $push: { enrolledCustomers: _id } }),
                 User.updateOne({ _id }, { $push: { personalRents: _id } })
             ]).then((joinedUsers) => {
-                // console.log('joinedUsers 169', joinedUsers)
-
                 MakeAppointment.create({
 
                     dateStart, dateEnd, startRentTime, endRentTime,
@@ -202,20 +196,9 @@ module.exports = {
                             Rent.updateOne({ _id: id },
                                 { $push: { makeAppointmentIds: idFromMakeAppCollection._id } })
                         ])
-                        // MakeAppointment.findByIdAndUpdate({ _id },
-                        //     { statusResult: idFromMakeAppCollection.statusResult = "Pending..." })
-                        // console.log('idFromMakeAppCollection', idFromMakeAppCollection)
 
                         if (!err) {
-                            // Rent.findById(id).then((rent) => {
-                            //     res.render(`/rent/details-rent/${id}`, {
-                            //         successJoin: setTimeout(() => {
-                            //             "Successfully scheduled for this rent!"
-                            //         }, 5000)
-                            //     })
-                            // }
 
-                            //redirect accept only (status , path)
                             res.redirect(`/rent/details-rent/${id}`)
 
                         }
@@ -394,6 +377,7 @@ module.exports = {
             console.log("ERROR", errors)
 
             if (!errors.isEmpty()) {
+                console.log('IM HEREE 0')
                 res.render(`rent/offer-rent-edit/${id}`, {
                     isLoggedIn: req.user !== undefined,
                     userEmail: req.user ? req.user.email : '',
@@ -416,31 +400,35 @@ module.exports = {
                 console.log('owner_id id user', _id)
 
                 if (err) {
-                    console.log('error 1', err)
-                    res.render(`/rent/offer-rent-edit.hbs/${id}`, {
-                        isLoggedIn: req.user !== undefined,
-                        userEmailLogout: req.user ? req.user.email : '',
-                        userInfo: req.user ? req.user.fullName : '',
-                        message: err,
-                        oldInputInformationAboutCarSpecifications: {
-                            vehicleType, brand, model, constructionYear, fuelType,
-                            carImage, seats, price
-                        }
-                    });
-                } else {
-
-                    if (req.file === undefined) {
-
+                    Rent.findOne({ _id: id }).lean()
+                    .then((rent) => {
                         res.render(`rent/offer-rent-edit`, {
                             isLoggedIn: req.user !== undefined,
                             userEmailLogout: req.user ? req.user.email : '',
                             userInfo: req.user ? req.user.fullName : '',
-                            message: 'Error: No File Selected(image is required)!',
-                            oldInputInformationAboutCarSpecifications: {
-                                vehicleType, brand, model, constructionYear, fuelType,
-                                carImage, seats, price
-                            }
-                        });
+                            message: err,
+                            rent
+                        })
+                    })
+
+                return
+                } else {
+
+                    if (req.file === undefined) {
+                        Rent.findOne({ _id: id }).lean()
+                            .then((rent) => {
+
+                                res.render(`rent/offer-rent-edit`, {
+                                    isLoggedIn: req.user !== undefined,
+                                    userEmailLogout: req.user ? req.user.email : '',
+                                    userInfo: req.user ? req.user.fullName : '',
+                                    message: 'Error: No File Selected(image is required)!',
+                                    rent
+                                })
+                            })
+
+                        return
+
                     } else {
 
                         Rent.findByIdAndUpdate(id, {
