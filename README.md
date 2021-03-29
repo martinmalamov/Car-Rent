@@ -1,4 +1,7 @@
+
+![#f03c15]
 This is website for renting a car from private person for day(days) chosen by you.</br>
+`#f03c15`
 The project is created fully independent and without any support.</br>
 ```diff
 -For more visual information about application you can check photos-of-the-project folder</br>
