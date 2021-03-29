@@ -1,5 +1,7 @@
 This is website for renting a car from private person for day(days) chosen by you.</br>
 The project is created fully independent and without any support.</br>
+For more visual information about application you can check photos-of-the-project folder</br>
+<img src="./photos-of-the-project" /></br>
 Implemented are basic CRUD(Create,Read,Update,Delete) operations.</br>
 Website is responsive I used Bootstrap and CSS for this purpose.</br>
 Handlebars is also used(Handlebars compiles templates into JavaScript functions).</br>
