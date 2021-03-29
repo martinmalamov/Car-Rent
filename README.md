@@ -16,7 +16,7 @@ Packages(node_modules) which must to be installed to run the app.</br>
 After installation on packages write in cmd or other terminal to run the server - npm(yarn) run start </br>
 
 The website have several pages(home , shared-rent,offer-rent ,details-rent,</br>offer-rent-edit, schedule-appointment,my-posts,login and register))</br>
-1.Home page is for all user who are guests of our app , to visit all other pages it's required to </br>have a account(registration).</br>
+1.Home page is for all user who are guests of our app , to visit all other pages it's obligatory to </br>have an account(registration).</br>
 2.After you create your registration(account) you will be able to login with your credentials.</br>
 3.You will be able to unlock the full potential of this application after your success login.</br>
 4.After your login you will be redirect to shared-rent(page) with all availaible publications.</br>
@@ -26,5 +26,6 @@ which you offer.</br>
 7.In details page you can see information about this this car plus photo of rented car.</br>
 If you are owner of this publication you will be able to either edit or delete this rent with </br>double red pair buttons(Edit this rent(edit) and Close this rent(delete)).</br>
 If you are not owner you will be able to join this rent after you fill a form with day and time.</br>
-After that you will be redirect to schedule-appointment page where you can check your schedule and</br> your current status about your request.Statuses are three ( Pending...(initial) , Approved and </br>Declined).</br>The owner should first check your request and then to assess it.
+After that you will be redirect to schedule-appointment page where you can check your schedule and</br> your current status about your request.</br>
+Statuses are three ( Pending...(initial) , Approved and Declined).</br>The owner should first check your request and then to assess it.
 
