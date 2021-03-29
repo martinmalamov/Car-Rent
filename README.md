@@ -1,7 +1,7 @@
 This is website for renting a car from private person for day(days) chosen by you.</br>
 The project is created fully independent and without any support.</br>
 For more visual information about application you can check photos-of-the-project folder</br>
-<img src="./photos-of-the-project" /></br>
+<![alt text](./photos-of-the-project) /></br>
 Implemented are basic CRUD(Create,Read,Update,Delete) operations.</br>
 Website is responsive I used Bootstrap and CSS for this purpose.</br>
 Handlebars is also used(Handlebars compiles templates into JavaScript functions).</br>
@@ -10,7 +10,7 @@ Packages(node_modules) which must to be installed to run the app.</br>
 Packages are - npm install bcrypt body-parser cookie-parser express express-handlebars express-validator jsonwebtoken mongoose mongodb nodemon</br>
 After installation on packages write in cmd or other terminal to run the server - npm(yarn) run start </br>
 
-The website have several pages(home , shared-rent with all publications which are have been made</br>,offer-rent , )</br>details-rent,offer-rent-edit, schedule-appointment,my-posts,login and register))</br>
+The website have several pages(home , shared-rent,offer-rent ,details-rent,</<.</br>offer-rent-edit, schedule-appointment,my-posts,login and register))</br>
 1.Home page is for all user who are guests of our app , to visit all other pages it's required to </br>have a account(registration).</br>
 2.After you create your registration(account) you will be able to login with your credentials.</br>
 3.You will be able to unlock the full potential of this application after your success login.</br>
