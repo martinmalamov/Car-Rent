@@ -1,7 +1,5 @@
 
-![#f03c15]
 This is website for renting a car from private person for day(days) chosen by you.</br>
-`#f03c15`
 The project is created fully independent and without any support.</br>
 ```diff
 -For more visual information about application you can check photos-of-the-project folder</br>
@@ -13,8 +11,8 @@ Handlebars is also used(Handlebars compiles templates into JavaScript functions)
 Packages(node_modules) which must to be installed to run the app.</br>
 ```diff
 -Packages are - npm install bcrypt body-parser cookie-parser express express-handlebars -express-validator jsonwebtoken mongoose mongodb nodemon</br>
-![alt text](./photos-of-the-project/Dependencies.jpg) </br></br>
 ```
+![alt text](./photos-of-the-project/Dependencies.jpg) </br></br>
 After installation on packages write in cmd or other terminal to run the server - npm(yarn) run start </br>
 
 The website have several pages(home , shared-rent,offer-rent ,details-rent,</br>offer-rent-edit, schedule-appointment,my-posts,login and register))</br>
