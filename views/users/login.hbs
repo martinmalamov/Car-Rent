@@ -6,17 +6,20 @@
                 <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter email" value="{{oldInput.email}}">
+                        autofocus="autofocus" placeholder="Enter email" value="{{oldInput.email}}">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control" id="password"
-                     placeholder="Password" value="{{oldInput.password}}">
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Password"
+                        value="{{oldInput.password}}">
                 </div>
-                <div class="form-group">
-                    <p>Not registered yet? <a href="/user/register">Register Now!</a></p>
+
+                <div style="text-align:center;">
+                    <div class="form-group">
+                        <p>Not registered yet? <a href="/user/register">Register Now!</a></p>
+                    </div>
+                    <button type="submit" id="login-form-submit" class="btn btn-primary">Login</button>
                 </div>
-                <button type="submit" id="login-form-submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>

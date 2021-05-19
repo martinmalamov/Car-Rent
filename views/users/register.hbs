@@ -5,13 +5,15 @@
             <form method="POST" action="/user/register">
                 <div class="form-group">
                     <label for="fullName">Full name</label>
-                    <input type="text" name="fullName" class="form-control" id="fullName" aria-describedby="fullNameHelp"
-                        placeholder="Enter your full name" value="{{ oldInput.fullName }}">
+                    <input autofocus="autofocus" type="text" name="fullName" class="form-control" id="fullName"
+                        aria-describedby="fullNameHelp" placeholder="Enter your full name"
+                        value="{{ oldInput.fullName }}">
                 </div>
                 <div class="form-group">
                     <label for="phoneNumber">Phone number</label>
-                    <input type="text" name="phoneNumber" class="form-control" id="phoneNumber" aria-describedby="phoneNumberHelp"
-                        placeholder="Enter your phone number" value="{{ oldInput.phoneNumber }}">
+                    <input type="text" name="phoneNumber" class="form-control" id="phoneNumber"
+                        aria-describedby="phoneNumberHelp" placeholder="Enter your phone number"
+                        value="{{ oldInput.phoneNumber }}">
                 </div>
                 <div class="form-group">
                     <label for="email">Email address</label>
@@ -28,10 +30,14 @@
                     <input type="password" name="rePassword" class="form-control" id="rePassword"
                         placeholder="Re-Password" value="{{ oldInput.rePassword }}">
                 </div>
-                <div class="form-group">
-                    <p>Already have account? <a href="/user/login/">Login Now!</a></p>
+
+                <div style="text-align:center;">
+                    <div class="form-group">
+                        <p>Already have account? <a href="/user/login/">Login Now!</a></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+
             </form>
         </div>
     </div>

@@ -119,6 +119,30 @@ module.exports = {
 
         register(req, res, next) {
             const { fullName, phoneNumber, email, password, rePassword } = req.body
+            function validateEmail(email) {
+                const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                const testRegex = re.test(String(email).toLowerCase())
+                console.log('re' , re)
+                console.log('testRegex' , testRegex)
+                if(!testRegex){
+                    res.render('users/register.hbs', {
+                        message: 'Email is not valid!',
+                        oldInput: { fullName, phoneNumber, email, password, rePassword }
+                    })
+                } else {
+                    return testRegex;
+                }
+               
+            }
+            validateEmail(email)
+            console.log('regex' , validateEmail(email))
+
+            if(password.length < 8 ){
+                res.render('users/register.hbs', {
+                    message: 'Password must to be at least 8 symbols!',
+                    oldInput: { fullName, phoneNumber, email, password, rePassword }
+                })
+            }
 
             if (password !== rePassword) {
                 res.render('users/register.hbs', {

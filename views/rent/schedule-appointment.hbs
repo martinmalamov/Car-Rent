@@ -1,98 +1,136 @@
-<div style="text-align: center; width: 100%;">
+<div style="text-align: center; width: 100%;margin-bottom:10%">
     <img style="display: block; margin: 0 auto; max-width: 100px;margin-top:70px;"
-        src="https://i-love-png.com/images/family-svg-clipart-white-3.png" />
-    <h5 style="font-weight: bold;">Customers schedule</h5>
+        src="data:image/png;base64,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" />
+    <h5><b>Customers schedule</b></h5>
+    {{#if usersAppointmentCount }}
     <div class="tableContainer">
-        <span>Full name</span>
-        <span class="borderElement">Date from</span>
-        <span class="borderElement">Date to</span>
-        <span class="borderElement">Hour from </span>
-        <span class="borderElement">Hour to</span>
-        <span class="borderElement">Status</span>
+        <span class="borderElement addBorder">Full name</span>
+        <span class="borderElement addBorder">Date from</span>
+        <span class="borderElement addBorder">Date to</span>
+        <span class="borderElement addBorder">Hour from </span>
+        <span class="borderElement addBorder">Hour to</span>
+        <span class="borderElement addBorder lastItemBorder">Status</span>
     </div>
+    {{/if}}
+    {{#unless usersAppointmentCount }}
+    <span>There is no scheduled users yet.</span>
+    {{/unless}}
+
     {{#if isTheowner}}
-        {{#each allScheduledUsersForRentForTable}}
+    {{#each allScheduledUsersForRentForTable}}
 
-        <div class="tableUser">
-            <span class="borderElement">{{ fullName }}</span>
-            <span class="borderElement">{{ dateStart }}</span>
-            <span class="borderElement">{{ dateEnd }}</span>
-            <span class="borderElement">{{ startRentTime }}</span>
-            <span class="borderElement">{{ endRentTime }}</span>
+    <div class="tableUser">
+        <div class="borderElement tableColumnsProperties"><span>{{ fullName }}</span></div>
+        <div class="borderElement tableColumnsProperties"><span>{{ dateStart }}</span>
+          <span>({{dayEnd}}.</span>
+            <span>{{monthEnd}}.</span>
+            <span>{{yearEnd}})</span>
+            </div>
+        <div class="borderElement tableColumnsProperties"><span>{{ dateEnd }}</span>
+          <span>({{dayEnd}}.</span>
+            <span>{{monthEnd}}.</span>
+            <span>{{yearEnd}})</span></div>
+        <div class="borderElement tableColumnsProperties"><span>{{ startRentTime }}</span></div>
+        <div class="borderElement tableColumnsProperties"><span>{{ endRentTime }}</span></div>
 
-            {{#if isApproved}}
-                <div id="container-button" style="background-color:green;">
-                    <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
-                    <form method="PUT" action="/makeAppointment/approved-rent/{{_id}}">
-                        <button type="submit">
-                            <span class="checkmark">
-                                <div class="checkmark_stem"></div>
-                                <div class="checkmark_kick"></div>
-                            </span>
-                        </button>
-                    </form>
-    
-                    {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
-                        {{!-- </button> --}}
-                    <form method="PUT" action="/makeAppointment/declined-rent/{{_id}}">
-                        <button type="submit" class="close" aria-label="Close" id="close"
-                            style="font-size:30px;width:30px;height:30;background-color:red;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </form>
-
-                 </div>
-            {{/if}}
-
-            {{#unless isApproved}}
-                <div id="container-button" style="background-color:rgb(198, 20, 20);">
-                    <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
-                    <form method="PUT" action="/makeAppointment/approved-rent/{{_id}}">
-                        <button type="submit">
-                            <span class="checkmark">
-                                <div class="checkmark_stem"></div>
-                                <div class="checkmark_kick"></div>
-                            </span>
-                        </button>
-                    </form>
-
-                    <form method="PUT" action="/makeAppointment/declined-rent/{{_id}}">
-                        <button type="submit" class="close" aria-label="Close" id="close"
-                            style="font-size:30px;width:30px;height:30;background-color:red;">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </form>
-
-                </div>
-            {{/unless }}
+        {{#if isApproved}}
+        <div id="container-button" class="borderElement lastItemBorder approved__style">
+            <div name="statusResult" id="approved" class="leftSide"><span>{{ statusResult }}</span></div>
         </div>
-        {{/each}}
+
+        {{#if statusIsNotPending}}
+        <div class="container__btn__makeAppointment">
+            <form method="PUT" action="/makeAppointment/approved-rent/{{_id}}" class="container__form">
+                <button type="submit">
+                    <span class="checkmark">
+                        <div class="checkmark_stem"></div>
+                        <div class="checkmark_kick"></div>
+                    </span>
+                </button>
+            </form>
+
+            {{!-- <button style="font-size:26px;padding-top:10px;width:30px;height:30;cursor:pointer; "> --}}
+                {{!-- </button> --}}
+            <form method="PUT" action="/makeAppointment/declined-rent/{{_id}}" style="height: 100%;width:50%">
+                <button type="submit" class="close btn__close" aria-label="Close" id="close">
+                    {{!-- <div style="height: 100%;" aria-hidden="true">&times;</div> --}}
+                    <div style="height: 100%;">
+                        <p class="buttonX">x</p>
+                    </div>
+                </button>
+            </form>
+
+        </div>
+        {{/if}}
+        {{#unless statusIsNotPending}}
+        {{/unless}}
+        {{/if}}
+
+        {{#unless isApproved}}
+        <div id="container-button" class="borderElement"
+            style="width:100%;height:100%;text-align:left; background-color:red;border-right: 3px solid green;">
+            <div name="statusResult" id="close" class="leftSide"><span>{{ statusResult }}</span></div>
+        </div>
+        <div id="container-button" style="display: inline-flex;width: 100%;justify-content: center;">
+            <form method="PUT" action="/makeAppointment/approved-rent/{{_id}}" style="height: 100%;width:50%">
+                <button type="submit">
+                    <span class="checkmark">
+                        <div class="checkmark_stem"></div>
+                        <div class="checkmark_kick"></div>
+                    </span>
+                </button>
+            </form>
+
+            <form method="PUT" action="/makeAppointment/declined-rent/{{_id}}" style="height: 100%;width:50%">
+                <button type="submit" class="close btn__close" aria-label="Close" id="close">
+                    <div style="height: 100%;">
+                        <p class="buttonX">x</p>
+                    </div>
+                </button>
+
+            </form>
+
+        </div>
+        {{/unless }}
+    </div>
+    {{/each}}
     {{/if}}
 
     {{#unless isTheowner}}
-        {{#each allScheduledUsersForRentForTable}}
-            <div class="tableUser">
-                {{#if isApproved}}
-                    <span >{{ fullName }}</span>
-                    <span class="borderElement">{{ dateStart }}</span>
-                    <span class="borderElement">{{ dateEnd }}</span>
-                    <span class="borderElement">{{ startRentTime }}</span>
-                    <span class="borderElement">{{ endRentTime }}</span>
-                    <div id="container-button" style="background-color:green;">
-                        <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
-                    </div>
-                {{/if }}
-                {{#unless isApproved}}
-                    <span >{{ fullName }}</span>
-                    <span class="borderElement">{{ dateStart }}</span>
-                    <span class="borderElement">{{ dateEnd }}</span>
-                    <span class="borderElement">{{ startRentTime }}</span>
-                    <span class="borderElement">{{ endRentTime }}</span>
-                    <div id="container-button" style="background-color:rgb(198, 20, 20)">
-                        <span name="statusResult" id="approved" class="leftSide">{{ statusResult }}</span>
-                    </div>
-                {{/unless }}
-            </div>
-        {{/each}}
+    {{#each allScheduledUsersForRentForTable}}
+    <div class="tableUser">
+        {{#if isApproved}}
+        <div class="borderElement tableColumnsProperties"><span>{{ fullName }}</span></div>
+        <div class="borderElement tableColumnsProperties">{{ dateStart }}</div>
+        <div class="borderElement tableColumnsProperties">{{ dateEnd }}</div>
+        <div class="borderElement tableColumnsProperties">{{ startRentTime }}</div>
+        <div class="borderElement tableColumnsProperties">{{ endRentTime }}</div>
+        <div id="container-button" class="approved__status">
+            <span name="statusResult" id="approved" class="leftSide ">{{ statusResult }}</span>
+        </div>
+        {{/if }}
+        {{#unless isApproved}}
+        <div class="borderElement tableColumnsProperties"><span>{{ fullName }}</span></div>
+        <div class="borderElement tableColumnsProperties" >
+            <span style="margin-right:2px">{{dateStart}}</span>
+            <span>({{dayStart}}.</span>
+            <span>{{monthStart}}.</span>
+            <span>{{yearStart}})</span>
+        </div>
+        <div class="borderElement tableColumnsProperties">
+            <span>{{ dateEnd }}</span>
+            <span>({{dayEnd}}.</span>
+            <span>{{monthEnd}}.</span>
+            <span>{{yearEnd}})</span>
+        </div>
+        <div class="borderElement tableColumnsProperties">{{ startRentTime }}</div>
+        <div class="borderElement tableColumnsProperties">{{ endRentTime }}</div>
+        <div id="container-button" class="decline-status borderElement tableColumnsProperties">
+            <span name="statusResult" id="approved">{{ statusResult }}</span>
+        </div>
+        {{/unless }}
+    </div>
+    {{/each}}
     {{/unless}}
+
 </div>

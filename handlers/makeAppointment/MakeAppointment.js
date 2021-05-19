@@ -16,6 +16,24 @@ const makeAppointmentSchema = new Schema({
     endRentTime: {
         type: String
     },
+    yearStart: {
+        type: String
+    },
+    monthStart: {
+        type: String
+    },
+    dayStart: {
+        type: String
+    },
+    yearEnd: {
+        type: String
+    },
+    monthEnd: {
+        type: String
+    },
+    dayEnd: {
+        type: String
+    },
 
     fullName: {
         type: String,

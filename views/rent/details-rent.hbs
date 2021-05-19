@@ -1,4 +1,4 @@
-<section class="py-5"style="border:1px solid black;">
+<section class="py-5" style="border:1px solid black;">
     <div style="padding: 2%;" class="container ">
         <div>
             <b>Owner:</b> <i>{{name}}</i>
@@ -7,20 +7,17 @@
         <hr>
 
         <div style="display: flex;flex-direction: column; border-radius: 5px;">
-            <div style="width: 100%;     width: 100%;
-    display: flex;justify-content: space-between;flex-wrap: wrap; height: 350px;">
-                <div style="position: relative;width:50%;min-width: 250px;min-height: 200px;">
-                    <img style="min-width: 270px; min-width: 200px; width: 500px;height: 400px;
-                    ;min-height: 180px;width: 100%; max-height: 500px;
-                     max-width: 500px;" class="img-fluid rounded" src="{{rent.carImage}}" alt="">
+            <div class="container__details">
+                <div class="container__image">
+                    <img class="img-fluid rounded" src="{{rent.carImage}}" alt="">
                     <span style="position: absolute;left: 0; top: 0;font-weight: bold;padding: 1px 7px;
                         background-color: mediumseagreen; border-radius:3px;" class="lead">price per day {{
                         rent.price}} </span>
                 </div>
 
-                <div style="display: block;">
+                <div class="title">
                     <div>
-                        <div style="font-size:22px;"><b>Car specifications: </b></div>
+                        <div class="title"><b>Car specifications: </b></div>
                         <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead">brand - {{
                             rent.brand}} </div>
                         <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead">model - {{
@@ -36,17 +33,30 @@
                     </div>
                 </div>
 
+                <div class="title"> 
+                     <div>
+                        <div style="font-size:22px;border-bottom:3px solid #f0e0e0;"><b>Additional information</b></div>
+                        <div style="width: 100%; word-wrap: break-word;font-weight: 400;" class="lead"
+                        ><p class="phone__info">phone - {{rent.phone}}</p></div>
+                        <div class="lead"
+                        ><p style="padding: 5px;">{{rent.additionalInformation}}</p></div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <div style="width: 100%; word-wrap: break-word; padding: 1%;text-align:center;  position:relative; ">
+        <div class="grid__container__buttons">
 
             {{#if isTheOwner_id}}
 
-            <div style="width: 100%;min-height:200px;">
+            <div class="flex__container__btn ">
 
-                <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger delete" onclick="return myConfirm();"
-                    type="submit">Close this rent</a>
+                <a href="/rent/close-rent/{{rent._id}}" class="btn btn-danger delete delete__btn"
+                    onclick="return myConfirm();" type="submit">
+                    <h6>Close this rent</h6>
+                </a>
                 <script>
                     function myConfirm() {
                         var result = confirm("Confirm delete !!!");
@@ -59,10 +69,13 @@
                     }
                 </script>
 
-                <a href="/makeAppointment/schedule-appointment/{{rent._id}}" class="btn btn-info">
-                    Check list of customers </a>
+                <a href="/makeAppointment/schedule-appointment/{{rent._id}}" class="btn btn-info list__btn">
+                    <h6>Check list of customers </h6>
+                </a>
 
-                <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2">Edit this rent</a>
+                <a href="/rent/offer-rent-edit/{{rent._id}}" class="btn btn-danger2 edit__btn">
+                    <h6>Edit this rent</h6>
+                </a>
             </div>
             {{else}}
 
@@ -81,25 +94,94 @@
             {{else}}
             <form method="POST" action="/makeAppointment/join-rent/{{rent._id}}">
                 <div style="display: flex; width: 100%;margin-top:50px;">
-                    <div style="width: 40%;">
+                    <div style="width: 40%;text-align: center;">
                         <div>
 
                             <i style="width: 100px;height:100px;" class="far fa-calendar-alt" aria-hidden="true"></i>
-                            <h5 style="display: block; margin: 0 auto; text-align: center; font-weight: bold;"
+                            <div>
+                                <b><p>From:</p></b>
+                            </div>
+                            <div style="display: grid; margin: 0 auto; text-align: center; font-weight: bold;"
                                 class="mt-4">
-                                <label for="dateStart">Choose a date from:</label>
-                                <select name="dateStart" id="dateStart" required>
-                                    <option>Monday</option>
-                                    <option>Tuesday</option>
-                                    <option>Wendsay</option>
-                                    <option>Thursday</option>
-                                    <option>Friday</option>
-                                    <option>Saturday</option>
-                                    <option>Sunday</option>
-                                </select>
 
-                                <div>
-                                    <label for="startRentTime">Choose rent time from:</label>
+                                <div class="join__rent__container__left">
+                                    <label for="dateStart">Week day:</label>
+                                    <select name="dateStart" id="dateStart" required>
+                                        <option>Monday</option>
+                                        <option>Tuesday</option>
+                                        <option>Wendsay</option>
+                                        <option>Thursday</option>
+                                        <option>Friday</option>
+                                        <option>Saturday</option>
+                                        <option>Sunday</option>
+                                    </select>
+                                </div>
+
+                                <div class="join__rent__container__left">
+                                    <label for="monthStart">Month:</label>
+                                    <select name="monthStart" id="monthStart" required>
+                                        <option value="01">1</option>
+                                        <option value="02">2</option>
+                                        <option value="03">3</option>
+                                        <option value="04">4</option>
+                                        <option value="05">5</option>
+                                        <option value="06">6</option>
+                                        <option value="07">7</option>
+                                        <option value="08">8</option>
+                                        <option value="09">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+
+                                <div class="join__rent__container__left">
+                                    <label for="dayStart">Day:</label>
+                                    <select name="dayStart" id="dayStart" required>
+                                        <option value="01">1</option>
+                                        <option value="02">2</option>
+                                        <option value="03">3</option>
+                                        <option value="04">4</option>
+                                        <option value="05">5</option>
+                                        <option value="06">6</option>
+                                        <option value="07">7</option>
+                                        <option value="08">8</option>
+                                        <option value="09">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                    </select>
+                                </div>
+
+                                <div class="join__rent__container__left">
+                                    <label for="yearStart">Year:</label>
+                                    <select name="yearStart" id="yearStart" required>
+                                        <option value="2021">2021</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="join__rent__container__left">
+                                    <label for="startRentTime">Time from:</label>
                                     <select name="startRentTime" id="startRentTime" required>
                                         <option value="1am">1 AM</option>
                                         <option value="2am">2 AM</option>
@@ -128,63 +210,130 @@
                                     </select>
                                 </div>
 
-                            </h5>
+                            </div>
                         </div>
                     </div>
 
 
-                    <div style="text-align: center; width: 40%;height:100px;">
-
-                        <i style="width: 100%;height:100%;" class="far fa-calendar-alt"></i>
-                        <h5 style="display: block; margin: 0 auto; text-align: center; font-weight: bold;" class="mt-4">
-                            {{!-- to {{rent.date}} {{rent.time}} --}}
-
+                    <div style="text-align: center; width: 40%;">
+                        <div>
+                            <i style="width: 100px;height:100px;" class="far fa-calendar-alt"></i>
                             <div>
-                                <label for="dateEnd">Choose a date to:</label>
-                                <select name="dateEnd" id="dateEnd" required>
-                                    <option>Monday</option>
-                                    <option>Tuesday</option>
-                                    <option>Wendsay</option>
-                                    <option>Thursday</option>
-                                    <option>Friday</option>
-                                    <option>Saturday</option>
-                                    <option>Sunday</option>
-                                </select>
+                                <b><p>To:</p></b>
                             </div>
+                            <div style="display:grid; margin: 0 auto; text-align: center; font-weight: bold;"
+                                class="mt-4">
+                                {{!-- to {{rent.date}} {{rent.time}} --}}
 
-                            <div>
-                                <label for="endRentTime">Choose rent time to:</label>
-                                <select name="endRentTime" id="endRentTime" required>
-                                    <option value="1am">1 AM</option>
-                                    <option value="2am">2 AM</option>
-                                    <option value="3am">3 AM</option>
-                                    <option value="4am">4 AM</option>
-                                    <option value="5am">5 AM</option>
-                                    <option value="6am">6 AM</option>
-                                    <option value="7am">7 AM</option>
-                                    <option value="8am">8 AM</option>
-                                    <option value="9am">9 AM</option>
-                                    <option value="10am">10 AM</option>
-                                    <option value="11am">11 AM</option>
-                                    <option value="12am">12 AM</option>
-                                    <option value="1pm">1 PM</option>
-                                    <option value="2pm">2 PM</option>
-                                    <option value="3pm">3 PM</option>
-                                    <option value="4pm">4 PM</option>
-                                    <option value="5pm">5 PM</option>
-                                    <option value="6pm">6 PM</option>
-                                    <option value="7pm">7 PM</option>
-                                    <option value="8pm">8 PM</option>
-                                    <option value="9pm">9 PM</option>
-                                    <option value="10pm">10 PM</option>
-                                    <option value="11pm">11 PM</option>
-                                    <option value="12pm">12 PM</option>
-                                </select>
+                                <div class="join__rent__container__right"> 
+                                    <label for="dateEnd">Week day:</label>
+                                    <select name="dateEnd" id="dateEnd" required>
+                                        <option>Monday</option>
+                                        <option>Tuesday</option>
+                                        <option>Wendsay</option>
+                                        <option>Thursday</option>
+                                        <option>Friday</option>
+                                        <option>Saturday</option>
+                                        <option>Sunday</option>
+                                    </select>
+                                </div>
+
+                                <div class="join__rent__container__right">
+                                    <label for="monthEnd">Month:</label>
+                                    <select name="monthEnd" id="monthEnd" required>
+                                        <option value="01">1</option>
+                                        <option value="02">2</option>
+                                        <option value="03">3</option>
+                                        <option value="04">4</option>
+                                        <option value="05">5</option>
+                                        <option value="06">6</option>
+                                        <option value="07">7</option>
+                                        <option value="08">8</option>
+                                        <option value="09">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+
+                                <div class="join__rent__container__right">
+                                    <label for="dayEnd">Day:</label>
+                                    <select name="dayEnd" id="dayEnd" required>
+                                        <option value="01">1</option>
+                                        <option value="02">2</option>
+                                        <option value="03">3</option>
+                                        <option value="04">4</option>
+                                        <option value="05">5</option>
+                                        <option value="06">6</option>
+                                        <option value="07">7</option>
+                                        <option value="08">8</option>
+                                        <option value="09">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+                                        <option value="21">21</option>
+                                        <option value="22">22</option>
+                                        <option value="23">23</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                        <option value="29">29</option>
+                                        <option value="30">30</option>
+                                        <option value="31">31</option>
+                                    </select>
+                                </div>
+
+                                <div class="join__rent__container__right">
+                                    <label for="yearEnd">Year:</label>
+                                    <select name="yearEnd" id="yearEnd" required>
+                                        <option value="2021">2021</option>
+                                    </select>
+                                </div>
+
+                                <div class="join__rent__container__right">
+                                    <label for="endRentTime">Choose rent time to:</label>
+                                    <select name="endRentTime" id="endRentTime" required>
+                                        <option value="1am">1 AM</option>
+                                        <option value="2am">2 AM</option>
+                                        <option value="3am">3 AM</option>
+                                        <option value="4am">4 AM</option>
+                                        <option value="5am">5 AM</option>
+                                        <option value="6am">6 AM</option>
+                                        <option value="7am">7 AM</option>
+                                        <option value="8am">8 AM</option>
+                                        <option value="9am">9 AM</option>
+                                        <option value="10am">10 AM</option>
+                                        <option value="11am">11 AM</option>
+                                        <option value="12am">12 AM</option>
+                                        <option value="1pm">1 PM</option>
+                                        <option value="2pm">2 PM</option>
+                                        <option value="3pm">3 PM</option>
+                                        <option value="4pm">4 PM</option>
+                                        <option value="5pm">5 PM</option>
+                                        <option value="6pm">6 PM</option>
+                                        <option value="7pm">7 PM</option>
+                                        <option value="8pm">8 PM</option>
+                                        <option value="9pm">9 PM</option>
+                                        <option value="10pm">10 PM</option>
+                                        <option value="11pm">11 PM</option>
+                                        <option value="12pm">12 PM</option>
+                                    </select>
+                                </div>
+
                             </div>
-
-                        </h5>
+                        </div>
                     </div>
-                    <div style="width:20%; display: flex;flex-direction: column;">
+                    <div class="rent__btn">
                         <button style="margin-top: auto;" type="submit" class="btn btn-primary">Rent a car
                             now</button>
                     </div>

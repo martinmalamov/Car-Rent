@@ -8,6 +8,7 @@ module.exports = {
         joinRent(req, res, next) {
             const { id } = req.params
             console.log('You are in get:schedule-appointment!!!')
+            let statusIsNotPending = true
 
             Rent.findById(id).then(async (rent) => {
                 let allScheduledUsersForRent = []
@@ -24,9 +25,14 @@ module.exports = {
                     //The lean method of mongoose returns plain JavaScript objects (POJOs), not Mongoose documents.
                     await MakeAppointment.findById(allScheduledUsersForRent[k]).lean().then((array) => {
 
-                        console.log('array 137', array)
+                        // console.log('array 137', array)
                         let confirmStatus = array.confirmStatus
-                        console.log('array 139', confirmStatus)
+
+                        if (array.statusResult === "Pending...") {
+                            statusIsNotPending = false
+                        }
+                        console.log('statusIsNotPending', statusIsNotPending)
+                        console.log('array 139', statusIsNotPending)
 
                         if (array.status === false && confirmStatus === false) {
                             array.statusResult = 'Declined'
@@ -40,15 +46,21 @@ module.exports = {
                         allScheduledUsersForRentForTable.push(array)
                     })
                 }
-                // console.log('allScheduledUsersForRentForTable 151', allScheduledUsersForRentForTable)
 
+                let usersAppointmentCount = true
                 const currentUser = JSON.stringify(req.user._id)
+                if (allScheduledUsersForRentForTable.length === 0) {
+                    usersAppointmentCount = false
+                }
+                console.log('usersAppointmentCount', allScheduledUsersForRentForTable)
 
                 res.render('rent/schedule-appointment', {
                     isLoggedIn: req.user !== undefined,
                     userEmailLogout: req.user ? req.user.email : '',
                     userInfo: req.user ? req.user.fullName : '',
                     allScheduledUsersForRentForTable,
+                    usersAppointmentCount,
+                    statusIsNotPending,
                     isTheowner: JSON.stringify(rent.owner_id) === currentUser,
                     statusResult: allScheduledUsersForRentForTable.statusResult
 
@@ -65,7 +77,9 @@ module.exports = {
             let confirmStatus = true
             let statusResult = ''
 
-            const { dateStart, dateEnd, startRentTime, endRentTime } = req.body
+            const { dateStart, startRentTime, yearStart, monthStart, dayStart,
+                yearEnd, dayEnd, monthEnd,
+                endRentTime, dateEnd } = req.body
             console.log('dateStart 162', dateStart)
 
             let fullName = req.user.fullName
@@ -79,7 +93,10 @@ module.exports = {
 
                 MakeAppointment.create({
 
-                    dateStart, dateEnd, startRentTime, endRentTime,
+                    dateStart, startRentTime,
+                    yearStart, monthStart, dayStart,
+                    yearEnd, monthEnd, dayEnd,
+                    dateEnd, endRentTime,
                     fullName,
                     status: status,
                     confirmStatus: confirmStatus,
@@ -120,14 +137,15 @@ module.exports = {
 
     put: {
         async approved(req, res, next) {
+
             const { id } = req.params
 
             try {
                 await MakeAppointment.findById(id).updateOne(
-                    { $set: { status: true, confirmStatus: true } })
+                    { $set: { status: true, confirmStatus: true, statusResult: "Approved" } })
                     .lean()
                     .then((updateStatus) => {
-                        // console.log('updateStatus from approved 114 line', updateStatus)
+                        console.log('updateStatus from approved 114 line', updateStatus)
                     })
             } catch (error) {
                 console.error(" fail APPROVED command");
@@ -143,7 +161,7 @@ module.exports = {
             const { id } = req.params
 
             try {
-                await MakeAppointment.findById(id).updateOne({ $set: { status: false, confirmStatus: false } }).lean().then((updateStatus) => {
+                await MakeAppointment.findById(id).updateOne({ $set: { status: false, confirmStatus: false, statusResult: "Declined" } }).lean().then((updateStatus) => {
                     console.log('updateStatus from declined 475', updateStatus)
                 })
             } catch (error) {

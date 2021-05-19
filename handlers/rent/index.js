@@ -67,24 +67,17 @@ module.exports = {
 
         offerRentEdit(req, res, next) {
             const { id } = req.params;
-            console.log('you are in GET now', id)
-
-            const storage = multer.diskStorage({
-                destination: './public/uploads_edit/',
-                filename: function (req, file, cb) {
-                    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-                }
-            });
 
             Rent.findOne({ _id: id }).lean()
                 .then((rent) => {
+                    console.log('you are in GET nowwwwwww', rent)
                     const fullName = req.user.fullName
 
                     res.render(`rent/offer-rent-edit`, {
                         isLoggedIn: req.user !== undefined,
                         userEmailLogout: req.user ? req.user.email : '',
                         userInfo: req.user ? fullName : '',
-                        rent
+                        rent,
                     })
                 })
         },
@@ -171,51 +164,51 @@ module.exports = {
     },
 
     post: {
-        joinRent(req, res, next) {
-            const { id } = req.params
-            const { _id } = req.user;
-            let status = false
-            let confirmStatus = true
-            let statusResult = ''
+        // joinRent(req, res, next) {
+        //     const { id } = req.params
+        //     const { _id } = req.user;
+        //     let status = false
+        //     let confirmStatus = true
+        //     let statusResult = ''
 
-            const { dateStart, dateEnd, startRentTime, endRentTime } = req.body
-            console.log('dateStart 162', dateStart)
+        //     const { dateStart, dateEnd, startRentTime, endRentTime } = req.body
+        //     console.log('dateStart 162', dateStart)
 
-            let fullName = req.user.fullName
-            console.log('fullname 193', fullName)
+        //     let fullName = req.user.fullName
+        //     console.log('fullname 193', fullName)
 
-            Promise.all([
-                Rent.updateOne({ _id: id }, { $push: { enrolledCustomers: _id } }),
-                User.updateOne({ _id }, { $push: { personalRents: _id } })
-            ]).then((joinedUsers) => {
-                MakeAppointment.create({
+        //     Promise.all([
+        //         Rent.updateOne({ _id: id }, { $push: { enrolledCustomers: _id } }),
+        //         User.updateOne({ _id }, { $push: { personalRents: _id } })
+        //     ]).then((joinedUsers) => {
+        //         MakeAppointment.create({
 
-                    dateStart, dateEnd, startRentTime, endRentTime,
-                    fullName,
-                    status: status,
-                    confirmStatus: confirmStatus,
-                    statusResult: statusResult = "Pending...",
-                    enrolledCustomers: _id,
-                    owner_id: id,
-                })
-                    .then((idFromMakeAppCollection, err) => {
-                        Promise.all([
-                            Rent.updateOne({ _id: id },
-                                { $push: { makeAppointmentIds: idFromMakeAppCollection._id } })
-                        ])
+        //             dateStart, dateEnd, startRentTime, endRentTime,
+        //             fullName,
+        //             status: status,
+        //             confirmStatus: confirmStatus,
+        //             statusResult: statusResult = "Pending...",
+        //             enrolledCustomers: _id,
+        //             owner_id: id,
+        //         })
+        //             .then((idFromMakeAppCollection, err) => {
+        //                 Promise.all([
+        //                     Rent.updateOne({ _id: id },
+        //                         { $push: { makeAppointmentIds: idFromMakeAppCollection._id } })
+        //                 ])
 
-                        if (!err) {
+        //                 if (!err) {
 
-                            res.redirect(`/rent/details-rent/${id}`)
+        //                     res.redirect(`/rent/details-rent/${id}`)
 
-                        }
-                    }).catch((err) => {
+        //                 }
+        //             }).catch((err) => {
 
-                        console.log(err)
-                    })
-            })
+        //                 console.log(err)
+        //             })
+        //     })
 
-        },
+        // },
 
         offerRent(req, res, next) {
 
@@ -226,24 +219,30 @@ module.exports = {
                     cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
                 }
             });
+            console.log('storage', storage.getFilename.filename)
 
             // Init Upload
             const upload = multer({
                 storage: storage,
                 limits: { fileSize: 1000000 },
                 fileFilter: function (req, file, cb) {
+                    console.log('checkFileType', checkFileType(file, cb))
                     checkFileType(file, cb);
                 }
             }).single('carImage');
+            console.log('upload', upload)
 
             // Check File Type
             function checkFileType(file, cb) {
+
                 // Allowed ext
                 const filetypes = /jpeg|jpg|png|gif/;
                 // Check ext
                 const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+                console.log('extname', extname)
                 // Check mime
                 const mimetype = filetypes.test(file.mimetype);
+                console.log('mimeType', mimetype)
 
                 if (mimetype && extname) {
                     return cb(null, true);
@@ -274,7 +273,7 @@ module.exports = {
             upload(req, res, (err) => {
 
                 let { vehicleType, brand, model, constructionYear, fuelType,
-                    carImage, seats, price } = req.body
+                    carImage, seats, price , phone , additionalInformation } = req.body
 
                 let oldInputInformationAboutCarSpecifications = {}
                 oldInputInformationAboutCarSpecifications.vehicleType = vehicleType
@@ -285,6 +284,8 @@ module.exports = {
                 oldInputInformationAboutCarSpecifications.carImage = carImage
                 oldInputInformationAboutCarSpecifications.seats = seats
                 oldInputInformationAboutCarSpecifications.price = price
+                oldInputInformationAboutCarSpecifications.phone = phone
+                oldInputInformationAboutCarSpecifications.additionalInformation = additionalInformation
 
                 if (err) {
                     res.render('rent/offer-rent.hbs', {
@@ -323,9 +324,11 @@ module.exports = {
                             fuelType,
                             seats,
                             price,
+                            phone , 
+                            additionalInformation,
                             oldInputInformationAboutCarSpecifications: {
                                 vehicleType, brand, model, constructionYear, fuelType,
-                                carImage, seats, price
+                                carImage: carImage, seats, price ,phone , additionalInformation
                             },
 
                             owner_id: _id,
@@ -347,6 +350,7 @@ module.exports = {
 
         //Edit functionality
         offerRentEdit(req, res, next) {
+
             // Set The Storage Engine
             const storage = multer.diskStorage({
                 destination: './public/uploads_edit/',
@@ -396,15 +400,38 @@ module.exports = {
 
             upload(req, res, (err) => {
                 let { vehicleType, brand, model, constructionYear, fuelType,
-                    carImage, seats, price } = req.body
+                    carImage, seats, price  , phone , additionalInformation} = req.body
 
-                // const testReq = req;
-                // console.log("owner_id ID line 357", testReq)
+                const dataIfFailure = (rent) => {
+                    rent.oldInputInformationAboutCarSpecifications.vehicleType = vehicleType
+                    rent.oldInputInformationAboutCarSpecifications.brand = brand
+                    rent.oldInputInformationAboutCarSpecifications.model = model
+                    rent.oldInputInformationAboutCarSpecifications.constructionYear = constructionYear
+                    rent.oldInputInformationAboutCarSpecifications.fuelType = fuelType
+                    rent.oldInputInformationAboutCarSpecifications.carImage = carImage
+                    rent.oldInputInformationAboutCarSpecifications.seats = seats
+                    rent.oldInputInformationAboutCarSpecifications.price = price
+                    rent.oldInputInformationAboutCarSpecifications.phone = phone
+                    rent.oldInputInformationAboutCarSpecifications.additionalInformation = additionalInformation
+                }
+
+                function rentFormData(messageError) {
+                    Rent.findOne({ _id: id }).lean()
+                        .then((rent) => {
+                            dataIfFailure(rent)
+                            console.log('rent', rent)
+                            res.render(`rent/offer-rent-edit`, {
+                                isLoggedIn: req.user !== undefined,
+                                userEmailLogout: req.user ? req.user.email : '',
+                                userInfo: req.user ? req.user.fullName : '',
+                                message: messageError,
+                                rent,
+                            })
+                        })
+                }
+
                 const { id } = req.params;
-                console.log("Creator user id", id)
-
                 const { _id } = req.user._id;
-                console.log('owner_id id user', _id)
 
                 if (err) {
                     Rent.findOne({ _id: id }).lean()
@@ -419,23 +446,55 @@ module.exports = {
                         })
 
                     return
-                } else {
+                }
 
-                    if (req.file === undefined) {
+                else {
+                    if (price === "") {
+                        let messageError = 'Price field is missing or not valid!'
+                        rentFormData(messageError)
+
+                        return
+                    } else if (fuelType === "") {
+                        let messageError = 'Fueltype field is missing or not valid!'
+                        rentFormData(messageError)
+
+                        return
+                    } else if (constructionYear === "") {
+                        let messageError = 'ConstructionYear field is missing or not valid!'
+                        rentFormData(messageError)
+
+                        return
+                    } else if (brand === "") {
+                        let messageError = 'Brand field is missing or not valid!'
+                        rentFormData(messageError)
+
+                        return
+                    } else if (model === "") {
+                        let messageError = 'Model field is missing or not valid!'
+                        rentFormData(messageError)
+
+                        return
+                    } else if (seats === "") {
+                        let messageError = 'Seats field is missing or not valid!'
+                        rentFormData(messageError)
+
+                        return
+                    } else if (req.file === undefined) {
+                        console.log('price] 2', price)
                         Rent.findOne({ _id: id }).lean()
                             .then((rent) => {
-
+                                //after fail data will be saved
+                                dataIfFailure(rent)
                                 res.render(`rent/offer-rent-edit`, {
                                     isLoggedIn: req.user !== undefined,
                                     userEmailLogout: req.user ? req.user.email : '',
                                     userInfo: req.user ? req.user.fullName : '',
                                     message: 'Error: No File Selected(image is required)!',
-                                    rent
+                                    rent,
+
                                 })
                             })
-
                         return
-
                     } else {
 
                         Rent.findByIdAndUpdate(id, {
@@ -449,9 +508,11 @@ module.exports = {
                             fuelType,
                             seats,
                             price,
+                            phone,
+                            additionalInformation,
                             oldInputInformationAboutCarSpecifications: {
                                 vehicleType, brand, model, constructionYear, fuelType,
-                                carImage, seats, price
+                                carImage, seats, price , phone , additionalInformation
                             },
                             owner_id: _id
                         }).then((rent) => {

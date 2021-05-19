@@ -33,6 +33,15 @@ const rentSchema = new Schema({
         type: String,
         required: true
     },
+    phone: {
+        type: String,
+        required: true
+    },
+    additionalInformation: {
+        type: String,
+        required: true
+    },
+
     carImage: {
         type: String,
         required: true
